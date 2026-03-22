@@ -5,9 +5,13 @@
 
 ## What This File Is
 
-`MARKETING.MD` is the authoritative configuration document for the wine e-commerce AI marketing system. Every AI agent reads this file at session start before accessing the MCP, creating campaign briefs, generating copy, or executing any channel action. It is the single source of marketing intent — replacing per-skill brand reminders, scattered prompt context, and ad hoc tone guidance with one version-controlled declaration.
+`MARKETING.MD` and its companion files are the authoritative configuration document for the wine e-commerce AI marketing system — replacing per-skill brand reminders, scattered prompt context, and ad hoc tone guidance with one version-controlled system of record.
 
-This file is consumed by AI, not humans. It is structured to answer the decisions AI agents face before they can act well: who are we selling to, how do we speak, what does success look like by campaign type, and what are we never allowed to do.
+**MARKETING.MD** is loaded by every AI agent at session start, before any MCP call, campaign brief, copy generation, or channel action. It contains the information every agent needs regardless of role: brand identity, voice and tone, customer personas, campaign type vocabulary, compliance rules, approval gates, data model definitions, prohibited actions, and autonomy guardrails.
+
+**Companion files** (listed in Section 13 — Companion File Registry) add specific detail for agents that need it. A paid media agent loads `BUDGET.MD` for bid ceilings and spend authority. A content agent loads `CAMPAIGNS.MD` for campaign blueprints. A crisis agent loads `SAFETY.MD` for escalation protocols. Agents load only the companion files relevant to their role — keeping context focused and session initialization fast.
+
+This system is consumed by AI, not humans.
 
 ---
 
