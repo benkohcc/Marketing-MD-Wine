@@ -17,17 +17,22 @@ If you are new to the `MARKETING.MD` standard, start with the [generic repositor
 ## What's Included
 
 ```
-MARKETING.MD                    # Core configuration — fully populated for wine DTC
+MARKETING.MD                    # Core configuration — loaded by every agent at session start
 companion/
   SAFETY.MD                     # Wine-specific crisis protocols (quality, recall, compliance)
   MESSAGING.MD                  # Positioning, pillars, and wine anti-hallucination rules
   PRICING.MD                    # Wine pricing tiers, Collector discount prohibition
   CONTENT.MD                    # Wine editorial strategy, SEO clusters, vintage content rules
+  CAMPAIGNS.MD                  # Full blueprints for all 8 campaign types
+  CHANNELS.MD                   # Per-channel execution config (email, paid, social, SEO)
+  CALENDAR.MD                   # Seasonal wine calendar with brief deadlines and campaign flags
+  SIGNALS.MD                    # Behavioral signal config — triggers, suppression, conflict rules
+  BUDGET.MD                     # Channel allocation, agent spend authority, stop-loss, bid ceilings
   MEASUREMENT.MD                # Attribution config, wine-specific KPIs
   EXPERIMENTATION.MD            # A/B test library with wine-specific test designs
   COMPETITORS.MD                # DTC wine competitive landscape and response rules
-  PERSONALIZATION.MD            # Persona × signal matrix, anti-creepiness rules
-  LIFECYCLE.MD                  # Wine lifecycle rules including Collector dormancy logic
+  PERSONALIZATION.MD            # Recommendation engine config, anti-creepiness rules
+  LIFECYCLE.MD                  # Value tiers, lifecycle stages, Collector dormancy logic, acq/ret strategy
   PARTNERS.MD                   # Producer content rules, affiliate policy
   VISUAL.MD                     # Wine visual identity system and photography style
 ```
