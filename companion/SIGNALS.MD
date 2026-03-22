@@ -1,7 +1,19 @@
 # SIGNALS.MD — Wine E-Commerce
-*Companion file to MARKETING-wine-ecommerce.md — Behavioral signals and triggered response configuration*
+*Companion file to MARKETING.MD — Behavioral signals and triggered response configuration*
 *Loaded by: triggered-messaging agents, CRM automation agents, plan-campaign skill, campaign-planning agents*
-*Authority: This file is the sole authority for triggered signal configuration — detection logic, response rules, copy angles, suppression conditions, and conflict resolution. MARKETING.md Section 8 contains the universal signal priority order (which signal type wins when multiple are active); this file contains full implementation detail.*
+*Authority: This file is the sole authority for triggered signal configuration — detection logic, response rules, copy angles, suppression conditions, conflict resolution, and signal priority order.*
+
+---
+
+## Signal Priority Order
+
+When multiple signals are active for the same customer simultaneously, resolve in this order:
+
+1. **Compliance & suppression** — always wins; blocks all other responses
+2. **Purchase intent** (cart abandon, wishlist, repeated PDP) — respond within hours
+3. **Post-purchase** — customer just bought; sequence suppresses campaigns for 7 days
+4. **Lifecycle risk** (churn threshold, RFM degradation) — adapt tone, do not suppress
+5. **Engagement signals** — inform personalization; do not affect timing
 
 ---
 

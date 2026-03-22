@@ -1,7 +1,7 @@
 # CHANNELS.MD — Wine E-Commerce
-*Companion file to MARKETING-wine-ecommerce.md — Channel execution configuration*
+*Companion file to MARKETING.MD — Channel execution configuration*
 *Loaded by: email agents, paid media agents, social agents, seo agents, any agent executing channel-specific actions*
-*Authority: This file is the sole authority for per-channel configuration. MARKETING.md Section 6 contains a single universal frequency cap rule; this file contains full channel configuration.*
+*Authority: This file is the sole authority for per-channel configuration. Universal frequency cap rules are in MARKETING.MD Section 6 (Suppression & Compliance); this file contains full channel configuration.*
 
 ---
 

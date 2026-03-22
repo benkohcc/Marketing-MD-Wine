@@ -1,7 +1,7 @@
 # LIFECYCLE.MD — Wine E-Commerce
-*Companion file to MARKETING-wine-ecommerce.md — Customer value tiers, lifecycle stage definitions, post-purchase sequences, and lifecycle strategy*
+*Companion file to MARKETING.MD — Customer value tiers, lifecycle stage definitions, post-purchase sequences, and lifecycle strategy*
 *Loaded by: lifecycle-analysis skill, plan-campaign skill, winback agents*
-*Authority: This file contains customer value tiers (Sec 1), lifecycle stage definitions and transitions (Sec 6), post-purchase sequences (Sec 7), and lifecycle × persona matrix (Sec 8). MARKETING.md Section 7 defers entirely to this file.*
+*Authority: This file is the sole authority for customer value tiers, lifecycle stage definitions and transitions, post-purchase sequences, lifecycle × persona matrix, and acquisition vs. retention strategy.*
 
 ---
 

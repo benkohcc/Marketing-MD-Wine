@@ -1,7 +1,7 @@
 # MESSAGING.MD — Wine E-Commerce
-*Companion file to MARKETING-wine-ecommerce.md — Positioning, messaging pillars, and approved claims*
+*Companion file to MARKETING.MD — Positioning, messaging pillars, and approved claims*
 *Loaded by: All content-generating agents before writing any copy*
-*Authority: This file is the sole authority for messaging pillars, approved claims, and copy rules. MARKETING.md Section 16 contains a summary positioning statement and defers here for full detail.*
+*Authority: This file is the sole authority for brand positioning, messaging pillars, approved claims, and copy rules.*
 
 ---
 

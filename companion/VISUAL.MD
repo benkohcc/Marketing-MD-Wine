@@ -1,5 +1,5 @@
 # VISUAL.MD — Wine E-Commerce
-*Companion file to MARKETING-wine-ecommerce.md — Visual identity for AI-generated assets*
+*Companion file to MARKETING.MD — Visual identity for AI-generated assets*
 *Loaded by: Design agents, image-generation agents, content agents producing visual assets*
 
 ---

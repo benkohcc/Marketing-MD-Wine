@@ -224,45 +224,8 @@ Voice is constant. Tone adjusts to context.
 
 ---
 
-## 5. Wine Seasonal & Vertical Calendar
 
-> Full seasonal calendar — 12 annual events with date ranges, brief deadlines, campaign_required flags, featured wine categories, and messaging angles — is in **companion/CALENDAR.MD**, loaded by campaign-planning agents and content agents.
-
----
-
-## 6. Channel Strategy
-
-> Full per-channel configuration — email frequency caps, list health rules, A/B testing defaults, paid media platform rules, social post frequency, SEO content cadence, and on-site ad configuration — is in **companion/CHANNELS.MD**, loaded by email agents, paid media agents, social agents, and SEO agents.
-
-**Universal frequency constraint (applies regardless of channel):** No customer may receive more than 3 marketing emails in any 7-day rolling window. Transactional sends (order confirmation, cart abandon, post-purchase confirmation) are exempt. This constraint is non-negotiable and takes precedence over any campaign brief instruction.
-
----
-
-## 7. Customer Lifecycle Journey
-
-> Full lifecycle configuration — stage definitions and transitions, post-purchase sequences, and the lifecycle × persona matrix — is in **companion/LIFECYCLE.MD**, loaded by all lifecycle-analysis agents, the plan-campaign skill, and winback agents.
-
----
-
-## 8. Behavioral Signals & Triggered Responses
-
-> Signals are real-time customer actions that warrant a response independent of any scheduled campaign. They operate on a different clock — campaigns are planned and broadcast; signals are detected and triggered.
-
-### Signal Priority Order
-
-When multiple signals are active for the same customer simultaneously, resolve in this order:
-
-1. **Compliance & suppression** — always wins; blocks all other responses (see Section 10)
-2. **Purchase intent** (cart abandon, wishlist, repeated PDP) — respond within hours
-3. **Post-purchase** — customer just bought; sequence suppresses campaigns for 7 days
-4. **Lifecycle risk** (churn threshold, RFM degradation) — adapt tone, do not suppress
-5. **Engagement signals** — inform personalization; do not affect timing
-
-> Full signal configuration — detection logic, copy angles, suppression conditions, conflict resolution rules, and signal expiry — is in **companion/SIGNALS.MD**, loaded by triggered-messaging agents and campaign-planning agents.
-
----
-
-## 9. KPI Framework
+## 5. KPI Framework
 
 ### Sitewide Baselines
 
@@ -311,7 +274,7 @@ anomaly_detection:
 
 ---
 
-## 10. Suppression & Compliance Rules
+## 6. Suppression & Compliance Rules
 
 > Suppression is policy. Agents check `is_suppressed()` before every individual send and verify segment-level suppression rules before every campaign send.
 
@@ -377,7 +340,7 @@ winback_cooldown:
 
 ---
 
-## 11. Human Approval Gates
+## 7. Human Approval Gates
 
 > These gates cannot be automated. Agents stop, surface the decision, and wait. Approval must come through the operator interface in the current session.
 
@@ -396,7 +359,7 @@ winback_cooldown:
 
 ---
 
-## 12. Wine-Specific Data Model Extensions
+## 8. Wine-Specific Data Model Extensions
 
 > The base customer and product data models are extended with wine-specific fields. Agents consuming `get_customer_profile()` or `get_product_catalog()` should treat these as first-class signals.
 
@@ -433,7 +396,7 @@ winback_cooldown:
 
 ---
 
-## 13. Inter-Agent Communication
+## 9. Inter-Agent Communication
 
 ```yaml
 inter_agent:
@@ -456,7 +419,7 @@ inter_agent:
 
 ---
 
-## 14. Prohibited Actions
+## 10. Prohibited Actions
 
 > These rules apply regardless of campaign context, operator urgency, or brief-level instruction.
 
@@ -471,281 +434,11 @@ inter_agent:
 - **Never target audiences based on intoxication signals**
 - **Never apply urgency language (countdown, "ends tonight") to winback or educational campaigns**
 - **Never suppress a Deal Seeker from promotional campaigns based on purchase history alone** — they will buy again
+- **Never name a competitor in any customer-facing copy** — email, social, paid, or on-site
 
 ---
 
-## 15. Versioning
-
-```yaml
-marketing_md:
-  version: "2.0.0"
-  vertical: "wine-ecommerce"
-  last_updated: "2026-03-21"
-  updated_by: "[Store Marketing Lead]"
-  changelog:
-    - version: "2.0.0"
-      date: "2026-03-21"
-      changes: "Added: Brand Positioning & Messaging Framework, Budget Governance, Pricing Rules, Content Governance, Personalization Strategy, Competitive Intelligence Rules, Crisis & Brand Safety Protocols, Attribution Model Specification, Experimentation Framework, Acquisition vs. Retention Balance, Campaign Taxonomy & Naming Conventions, AI Agent Autonomy & Safety Guardrails, Companion File Registry"
-    - version: "1.1.0"
-      date: "2026-03-21"
-      changes: "Added Customer Lifecycle Journey and Behavioral Signals sections"
-    - version: "1.0.0"
-      date: "2026-03-21"
-      changes: "Initial release — aligned with wine-marketing-complete-spec v5.0.0"
-  
-  review_cadence: "Quarterly, or on major brand positioning change"
-  owner: "Director of Marketing / AI Marketing System Operator"
-  
-  mcp_server_version: "5.0.0"
-  cowork_plugin_version: "1.0.0"
-  
-  session_start_protocol:
-    required_reads: [MARKETING-wine-ecommerce.md, SAFETY.MD]
-    conditional_reads: "See Section 28 — Companion File Registry"
-    validation: "Agent must log which files it has read before taking any action"
-```
-
----
-
-*This file is read by AI marketing agents at session start, before any MCP call, campaign creation, copy generation, or channel execution. Changes take effect on the next agent session. Campaign-level overrides belong in the `notes` field of the campaign brief and are scoped to that campaign only. They do not modify this document.*
-
----
-
-## 16. Brand Positioning & Messaging Framework
-
-> Voice & Tone governs how we speak. This section governs what we say. Every piece of AI-generated copy must trace back to a messaging pillar. Claims not in the approved library must not be published without human review — this is the primary guardrail against hallucinated facts.
->
-> Full messaging pillars, approved claims library, per-persona copy angles, and anti-hallucination rules are in **companion/MESSAGING.MD**, loaded by all content-generating agents.
-
-### Positioning Statement
-
-```yaml
-positioning:
-  statement: "For wine buyers who are tired of algorithm-driven shelves and inflated tasting notes, [Store] is the curated wine retailer that matches the right wine to the right person — because we know our wines and our customers well enough to make that match."
-
-  pillars: ["Honest Curation", "Knowledge Without Pretension", "Right Wine, Right Customer"]
-  # Full pillar definitions, approved phrases, and per-persona copy angles: see companion/MESSAGING.MD
-```
-
----
-
-## 17. Budget Governance & Spending Guardrails
-
-### Total Budget
-
-```yaml
-budget:
-  period: monthly
-  total: $[N]
-  
-  channel_allocation:
-    email: 5%           # ESP costs — low absolute spend
-    paid_search: 35%    # Google Shopping drives highest-intent wine buyers
-    paid_social: 30%    # Meta retargeting + prospecting for seasonal
-    content_seo: 20%    # blog production and SEO tooling
-    affiliate: 5%
-    reserved: 5%        # opportunistic — emerging wine events, competitor disruption
-  
-  portfolio_split:
-    proven_channels: 70%    # email, Google Shopping, Meta retargeting — proven ROAS
-    emerging_channels: 20%  # Pinterest, TikTok, new paid formats
-    experimental: 10%       # influencer tests, podcast, niche wine media
-  
-  seasonal_rebalancing:
-    # Shift allocation during high-season windows
-    holiday_gifting_nov_dec:
-      paid_social: 40%     # Gifter persona is most reachable via paid social
-      paid_search: 30%     # Gift-intent searches spike
-    harvest_season_sep_oct:
-      email: 10%           # Loyalist and Collector heavy — email over-indexes
-      paid_search: 30%
-```
-
-### Agent Spending Authority
-
-```yaml
-spending_authority:
-  auto_approve:
-    - action: "Adjust Google Shopping bids within active campaign"
-      limit: "±15% per day"
-    - action: "Pause Meta ad set"
-      condition: "ROAS below 2.0× for 3 consecutive days"
-    - action: "Reallocate budget between ad sets within same paid campaign"
-      limit: "Up to 20% of campaign budget"
-  
-  notify_then_proceed:
-    - action: "Launch a new paid campaign"
-      condition: "Campaign brief approved at Gate 1; budget within channel allocation"
-      notification: "Slack alert with campaign ID, SKU, budget, and targeting summary"
-    - action: "Increase daily budget on overperforming campaign"
-      limit: "Up to 20% increase; not to exceed channel monthly cap"
-  
-  require_approval:
-    - action: "Any single-day spend above $500"
-    - action: "Channel reallocation exceeding 10% of monthly budget"
-    - action: "Spend on a channel not in the current allocation plan"
-    - action: "Any paid campaign for limited_allocation SKUs (prohibited — see Section 4)"
-```
-
-### Stop-Loss Thresholds
-
-```yaml
-stop_loss:
-  paid_roas_below: 2.0        # pause if ROAS drops below 2× for 3 consecutive days
-  cpa_above: $[N]             # pause if CPA exceeds this for 3 consecutive days
-  daily_spend_above: $[N]     # alert if daily spend is more than 2× planned daily rate
-  
-  auto_pause_conditions:
-    - "ROAS < 2.0× for 3+ consecutive days → pause campaign, alert human"
-    - "Daily spend > 2× planned daily budget → pause immediately (bid runaway protection)"
-    - "Conversion rate drops > 40% vs. 7-day baseline → pause and flag"
-    - "SKU sells out while paid campaign is active → pause immediately (inventory sync)"
-  
-  resume_conditions:
-    - "Human explicitly approves resume"
-    - "Inventory confirmed back in stock (for OOS pauses)"
-```
-
-### Bid Ceilings
-
-```yaml
-bid_ceilings:
-  google_shopping:
-    max_cpc: $[N]             # set per margin tier — high-margin SKUs warrant higher bids
-  google_search:
-    max_cpc: $[N]
-    high_value_keywords:      # vintage-specific and producer-specific searches
-      max_cpc: $[N]
-  meta:
-    max_cpm: $[N]
-    retargeting_max_cpm: $[N]   # retargeting audiences are smaller and more expensive
-  
-  alcohol_advertising_note: "Google, Meta, and Pinterest each have distinct alcohol advertising policies. All paid campaigns require platform-specific compliance review before launch."
-```
-
----
-
-
-## 18. Personalization Strategy
-
-> Full personalization tier configuration (permitted signals, allowed/prohibited actions per tier, critical rules) is in **companion/PERSONALIZATION.MD**, loaded by email agents and personalization agents.
-
-### Recommendation Engine Rules
-
-```yaml
-recommendation_rules:
-  diversity_control:
-    max_same_varietal_pct: 60%      # never show only one varietal even for Loyalists
-    max_same_region_pct: 70%
-    exploration_ratio: 20%           # 1 in 5 recs should be outside known affinity
-    out_of_stock_filter: true
-    margin_floor: 30%
-  
-  # For per-page context rules (homepage, PDP, cart, email, post-purchase) and algorithm weights, see companion/PERSONALIZATION.MD
-
-  anti_creepiness_rules:
-    - "Never write 'you've been looking at [wine]' — frame as 'still available' instead"
-    - "Never reference a specific price point the customer viewed"
-    - "Never infer occasion from a single gift purchase — require 2+ gift signals"
-    - "Never assume a Collector wants a discount — never recommend discounted versions of prestige SKUs"
-    - "Browse history from a single session is not sufficient for persona classification"
-    - "A customer who buys wine for others (Gifter) does not have personal wine preferences from those purchases — do not infer"
-```
-
----
-
-## 19. Competitive Intelligence Rules
-
-### Competitive Mention Policy
-
-```yaml
-competitive_mention_policy:
-  permitted_contexts:
-    - "Comparison landing pages — with substantiated SKU-level claims only"
-    - "Educational content distinguishing wine regions or producers (factual, not competitive)"
-  
-  prohibited_contexts:
-    - "Email subject lines and body copy — never name a competitor"
-    - "Organic social posts — brand dignity above all"
-    - "Paid ad copy — never comparative in paid (platform risk + brand risk)"
-    - "Any context without immediate substantiation"
-  
-  legal_requirements:
-    - "All comparative claims must be truthful and substantiated (FTC standards)"
-    - "Wine press scores used comparatively must be from the same publication and vintage"
-    - "Price comparisons must reflect current verified prices — not historical"
-    - "Never imply competitor endorsement of our product"
-  
-  wine_specific_rules:
-    - "Never compare tasting notes — subjective and unsubstantiable"
-    - "Comparative wine scoring claims require same critic, same vintage, same publication"
-    - "Never disparage a producer — the wine community is small"
-```
-
-> Full competitive response scenarios — trigger conditions, agent actions, and repositioning statements by competitor type — are in **companion/COMPETITORS.MD**, loaded by content agents and ad copy agents.
-
----
-
-
-## 20. Acquisition vs. Retention Balance
-
-### Strategic Balance
-
-```yaml
-acquisition_retention_balance:
-  current_business_stage: "scaling"    # update as business matures
-  
-  target_spend_split:
-    acquisition: 45%
-    retention: 55%
-    note: "Wine retention is high-value — Loyalists and Collectors have 3–5× the CLV of one-time buyers. Retention investment compounds."
-  
-  rebalancing_trigger: "Review if new customer CAC exceeds 3× first-order AOV for 2 consecutive months"
-```
-
-### Acquisition Rules
-
-```yaml
-acquisition:
-  target_cac: $[N]
-  cac_to_ltv_ratio: "1:4 minimum — wine LTV is driven by repeat purchase and CLV growth"
-  
-  primary_acquisition_channels: [google_shopping, meta_prospecting, organic_search]
-  secondary_channels: [pinterest, email_referral, content_seo]
-  
-  new_customer_definition: "First purchase within last 60 days"
-  
-  quality_guard:
-    min_first_order_value: $35     # don't optimize acquisition for low-AOV first orders
-    persona_fit_targeting: true    # target Explorer and Gifter for acquisition — don't acquire Deal Seekers via broad prospecting without offer
-    avoid_acquiring_solely_on_deal: "If first order requires > 20% discount to convert, flag for CLV review — these customers rarely return at full price"
-```
-
-### Retention Rules
-
-```yaml
-retention:
-  target_retention_rate_90d: 35%
-  target_second_purchase_rate_30d: 30%
-  target_annual_purchase_frequency_active_customers: 5
-  
-  retention_investment_priority:
-    1: "Collectors and Loyalists — protect at all cost; personal touch when CLV > $500"
-    2: "At-risk high-CLV customers — intervene early with new arrival in their category"
-    3: "New Explorer customers — convert to active with discovery-led second-purchase nudge"
-    4: "Lapsed Gifters — re-engage before next seasonal occasion"
-    5: "Lapsed Deal Seekers — winback with strong offer only; don't over-invest"
-  
-  churn_prevention_budget: "40% of retention budget"
-  winback_budget: "20% of retention budget"
-  loyalty_deepening_budget: "40% of retention budget (new arrivals, allocations, exclusives)"
-  
-  wine_specific_note: "Collector and Loyalist churn is disproportionately costly — one churned Collector represents $2,000–5,000 in lost CLV. These customers warrant direct human outreach, not automated winback."
-```
-
----
-
-## 21. Campaign Taxonomy & Naming Conventions
+## 11. Campaign Taxonomy & Naming Conventions
 
 ### Campaign ID Format
 
@@ -793,7 +486,7 @@ content_tags:
 
 ---
 
-## 22. AI Agent Autonomy & Safety Guardrails
+## 12. AI Agent Autonomy & Safety Guardrails
 
 ### Autonomy Levels
 
@@ -852,7 +545,7 @@ fail_safe_defaults:
 
 ### Anti-Hallucination System
 
-> This block covers cross-cutting hallucination risk. Domain-specific rules also exist in: **companion/MESSAGING.MD Section 5** (approved claims library, copy-level rules), **companion/CONTENT.MD Section 6** (editorial standards, AI disclosure), **companion/SAFETY.MD Section 9** (brand safety, wine fault descriptions).
+> This block covers cross-cutting hallucination risk. Domain-specific rules also exist in: **companion/MESSAGING.MD** (approved claims library, copy-level rules), **companion/CONTENT.MD** (editorial standards, AI disclosure), **companion/SAFETY.MD** (brand safety, wine fault descriptions).
 
 ```yaml
 anti_hallucination:
@@ -936,7 +629,7 @@ data_freshness:
 
 ---
 
-## 23. Companion File Registry
+## 13. Companion File Registry
 
 ```yaml
 companion_files:
@@ -986,7 +679,7 @@ companion_files:
   - file: "PERSONALIZATION.MD"
     purpose: "Recommendation engine full config, dynamic content rules, consent architecture, segment definitions"
     loaded_by: [personalization_agents, update_personalization_skill, send_emails_skill]
-    required_for: "Any agent personalizing content beyond what Section 20 defines"
+    required_for: "Any agent personalizing content beyond basic persona targeting"
     version: "1.0.0"
     last_updated: "2026-03-21"
   
@@ -1039,11 +732,48 @@ companion_files:
     version: "1.0.0"
     last_updated: "2026-03-22"
 
+  - file: "BUDGET.MD"
+    purpose: "Channel budget allocation, agent spending authority limits, stop-loss thresholds, and bid ceilings"
+    loaded_by: [campaign_planning_agents, paid_media_agents, plan_campaign_skill]
+    required_for: "Any agent planning paid campaigns, adjusting bids, or making spend decisions"
+    version: "1.0.0"
+    last_updated: "2026-03-22"
+
 session_start_protocol:
-  required_reads: [MARKETING-wine-ecommerce.md, SAFETY.MD]
-  conditional_reads: "Load companion files based on agent skill role — see loaded_by field above"
+  required_reads: [MARKETING.MD, SAFETY.MD]
+  conditional_reads: "Load companion files based on agent skill role — see loaded_by field above. See Section 13 — Companion File Registry."
   validation: "Agent must log which files it has read before taking any action"
   mcp_server_version: "5.0.0"
   cowork_plugin_version: "1.0.0"
 ```
+
+---
+
+## 14. Versioning
+
+```yaml
+marketing_md:
+  version: "2.1.0"
+  vertical: "wine-ecommerce"
+  last_updated: "2026-03-22"
+  updated_by: "[Store Marketing Lead]"
+  changelog:
+    - version: "2.1.0"
+      date: "2026-03-22"
+      changes: "Final cleanup pass — removed sections not universally needed by all agents (Seasonal Calendar, Channel Strategy, Lifecycle Journey, Behavioral Signals, Brand Positioning, Budget Governance, Personalization, Competitive Intelligence, Acquisition/Retention Balance). Moved content to respective companion files. Added BUDGET.MD companion. Renumbered sections. Replaced MARKETING-wine-ecommerce.md references with MARKETING.MD throughout."
+    - version: "2.0.0"
+      date: "2026-03-21"
+      changes: "Added: Brand Positioning & Messaging Framework, Budget Governance, Pricing Rules, Content Governance, Personalization Strategy, Competitive Intelligence Rules, Crisis & Brand Safety Protocols, Attribution Model Specification, Experimentation Framework, Acquisition vs. Retention Balance, Campaign Taxonomy & Naming Conventions, AI Agent Autonomy & Safety Guardrails, Companion File Registry"
+    - version: "1.1.0"
+      date: "2026-03-21"
+      changes: "Added Customer Lifecycle Journey and Behavioral Signals sections"
+    - version: "1.0.0"
+      date: "2026-03-21"
+      changes: "Initial release — aligned with wine-marketing-complete-spec v5.0.0"
+
+  review_cadence: "Quarterly, or on major brand positioning change"
+  owner: "Director of Marketing / AI Marketing System Operator"
+```
+
+*This file is read by AI marketing agents at session start, before any MCP call, campaign creation, copy generation, or channel execution. Changes take effect on the next agent session. Campaign-level overrides belong in the `notes` field of the campaign brief and are scoped to that campaign only. They do not modify this document.*
 

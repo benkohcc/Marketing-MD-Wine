@@ -1,5 +1,5 @@
 # CALENDAR.MD — Wine E-Commerce
-*Companion file to MARKETING-wine-ecommerce.md — Seasonal & vertical calendar*
+*Companion file to MARKETING.MD — Seasonal & vertical calendar*
 *Loaded by: plan-campaign skill, campaign-planning agents, content agents, seo agents*
 *Authority: This file is the sole authority for seasonal event configuration, brief deadlines, and campaign-required flags. Agents check this file at every planning run to identify upcoming events and generate briefs with appropriate lead times.*
 

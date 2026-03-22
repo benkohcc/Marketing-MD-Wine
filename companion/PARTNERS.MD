@@ -1,5 +1,5 @@
 # PARTNERS.MD — Wine E-Commerce
-*Companion file to MARKETING-wine-ecommerce.md — Partnership, producer, and affiliate configuration*
+*Companion file to MARKETING.MD — Partnership, producer, and affiliate configuration*
 *Loaded by: Campaign agents, content agents producing co-branded content*
 
 ---

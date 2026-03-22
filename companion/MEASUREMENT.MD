@@ -1,5 +1,5 @@
 # MEASUREMENT.MD — Wine E-Commerce
-*Companion file to MARKETING-wine-ecommerce.md — Attribution, tracking, and measurement governance*
+*Companion file to MARKETING.MD — Attribution, tracking, and measurement governance*
 *Loaded by: performance-report skill, analytics agents*
 
 ---

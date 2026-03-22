@@ -1,5 +1,5 @@
 # EXPERIMENTATION.MD — Wine E-Commerce
-*Companion file to MARKETING-wine-ecommerce.md — A/B testing governance and rollout rules*
+*Companion file to MARKETING.MD — A/B testing governance and rollout rules*
 *Loaded by: review-behavior skill, update-personalization skill, experimentation agents*
 
 ---

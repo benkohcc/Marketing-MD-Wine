@@ -1,5 +1,5 @@
 # CAMPAIGNS.MD — Wine E-Commerce
-*Companion file to MARKETING-wine-ecommerce.md — Campaign type blueprints and copy guidance*
+*Companion file to MARKETING.MD — Campaign type blueprints and copy guidance*
 *Loaded by: plan-campaign skill, all campaign-planning and campaign-execution agents*
 *Authority: This file is the sole authority for campaign type configuration. MARKETING.md Section 4 contains a glossary of type names; this file contains full blueprints.*
 

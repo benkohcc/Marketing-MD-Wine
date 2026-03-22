@@ -1,7 +1,7 @@
 # PRICING.MD — Wine E-Commerce
-*Companion file to MARKETING-wine-ecommerce.md — Discount authority, promotional rules, wine pricing configuration*
+*Companion file to MARKETING.MD — Discount authority, promotional rules, wine pricing configuration*
 *Loaded by: Campaign agents, plan-campaign skill, any agent creating or modifying offers*
-*Authority: This file contains the full discount authority matrix, promotional frequency rules, wine pricing tiers, channel-specific pricing, persona pricing rules, and bundle pricing. MARKETING.md Section 18 contains the same discount authority matrix and frequency rules as the governance summary; this file is the implementation authority.*
+*Authority: This file is the sole authority for discount authority matrix, promotional frequency rules, wine pricing tiers, channel-specific pricing, persona pricing rules, and bundle pricing.*
 
 ---
 
@@ -133,7 +133,7 @@ channel_specific_pricing:
     alcohol_advertising_note: "Price in paid ads is subject to platform alcohol advertising policies — no 'sale' framing that implies alcohol promotion"
   
   email:
-    rule: "Discount permitted per campaign type defaults in MARKETING-wine-ecommerce.md Section 4"
+    rule: "Discount permitted per campaign type defaults in MARKETING.MD Section 4 (Campaign Types glossary)"
     code_placement: "Prominent — first third of email body; never buried in footer"
     expiry: "Always include offer expiry date; never leave open-ended"
     persona_rule: "Never include a discount code in an email to a Collector or Loyalist in their primary category — even if the code exists in the brief"

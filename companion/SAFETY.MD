@@ -1,7 +1,7 @@
 # SAFETY.MD — Wine E-Commerce
-*Companion file to MARKETING-wine-ecommerce.md — Crisis protocols, brand safety, and AI guardrails*
-*Loaded by: ALL agents at every session start alongside the core MARKETING file*
-*Authority: This file is the sole authority for crisis protocols, kill switch procedures, and brand safety categories. MARKETING.md Section 22 defers entirely to this file.*
+*Companion file to MARKETING.MD — Crisis protocols, brand safety, and AI guardrails*
+*Loaded by: ALL agents at every session start alongside the core MARKETING.MD file*
+*Authority: This file is the sole authority for crisis protocols, kill switch procedures, and brand safety categories. MARKETING.MD Section 12 (AI Agent Autonomy) references this file for circuit breaker escalation.*
 
 ---
 
@@ -460,4 +460,4 @@ safety_md_wine:
 
 ---
 
-*This file loads alongside MARKETING-wine-ecommerce.md at every agent session start. No wine marketing agent may take any action without having read both files.*
+*This file loads alongside MARKETING.MD at every agent session start. No wine marketing agent may take any action without having read both files.*

@@ -1,7 +1,7 @@
 # COMPETITORS.MD — Wine E-Commerce
-*Companion file to MARKETING-wine-ecommerce.md — Competitive intelligence and response rules*
+*Companion file to MARKETING.MD — Competitive intelligence and response rules*
 *Loaded by: Content agents, ad copy agents; only when producing comparative content*
-*Authority: This file contains the full competitive landscape, repositioning statements, and competitive response triggers. MARKETING.md Section 21 contains competitive mention prohibitions (universal governance); this file contains implementation detail and response scenarios.*
+*Authority: This file is the sole authority for competitive landscape, repositioning statements, competitive mention policy, and competitive response triggers. The universal prohibition (never name a competitor in customer-facing copy) is in MARKETING.MD Section 10 (Prohibited Actions).*
 
 ---
 
@@ -61,23 +61,34 @@ competitive_landscape:
 
 ```yaml
 mention_policy:
-  
+
   permitted_contexts:
     - "Internal planning documents (this file)"
     - "Repositioning statements when a customer directly asks how we compare"
     - "Informational 'why us' page — with substantiated claims only"
-  
+    - "Comparison landing pages — with substantiated SKU-level claims only"
+    - "Educational content distinguishing wine regions or producers (factual, not competitive)"
+
   prohibited_contexts:
-    - "Email subject lines — never name a competitor"
+    - "Email subject lines and body copy — never name a competitor"
     - "Organic social — never name or imply a competitor in posts"
-    - "Paid ad copy — no comparative advertising in paid"
+    - "Paid ad copy — no comparative advertising in paid (platform risk + brand risk)"
     - "Product descriptions — focus on our wine, not what others don't have"
     - "Any context where the claim is not immediately verifiable"
-  
+
+  legal_requirements:
+    - "All comparative claims must be truthful and substantiated (FTC standards)"
+    - "Wine press scores used comparatively must be from the same publication and vintage"
+    - "Price comparisons must reflect current verified prices — not historical"
+    - "Never imply competitor endorsement of our product"
+
   wine_industry_specific_rules:
     - "Never criticize a specific producer's wines — the industry is too small and interconnected"
     - "Never compare our tasting notes to another retailer's — subjective and unsubstantiable"
     - "Never imply a competitor misrepresents their wines without documented evidence"
+    - "Never compare tasting notes — subjective and unsubstantiable"
+    - "Comparative wine scoring claims require same critic, same vintage, same publication"
+    - "Never disparage a producer — the wine community is small"
     - "If a competitor carries the same wine, do not compete on the wine itself — compete on the knowledge and relationship we wrap around it"
 ```
 

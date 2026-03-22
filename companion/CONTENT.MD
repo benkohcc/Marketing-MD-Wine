@@ -1,7 +1,7 @@
 # CONTENT.MD — Wine E-Commerce
-*Companion file to MARKETING-wine-ecommerce.md — Editorial strategy, content governance, SEO*
+*Companion file to MARKETING.MD — Editorial strategy, content governance, SEO*
 *Loaded by: generate-content skill, seo-audit skill, any agent producing editorial or long-form content*
-*Authority: This file contains full content pillar definitions (with example topics), format specifications, quality standards, SEO governance, and editorial calendar. MARKETING.md Section 19 contains the pillar summary table and publishing approval gates as universal governance; this file is the implementation authority.*
+*Authority: This file is the sole authority for content pillar definitions, format specifications, quality standards, SEO governance, and editorial calendar.*
 
 ---
 
@@ -67,7 +67,7 @@ content_pillars:
     target_personas: [Gifter, Explorer]
     funnel_stage: conversion
     primary_kpi: "add_to_cart_rate_from_content > 8%; email_conversion_rate on seasonal campaigns"
-    cadence: "Lead time per MARKETING-wine-ecommerce.md Section 5 seasonal calendar"
+    cadence: "Lead time per companion/CALENDAR.MD seasonal calendar"
     example_topics:
       - "The Best Wine Gifts for People Who Know Wine (and People Who Don't)"
       - "What Wine Actually Goes With Thanksgiving Dinner"
@@ -170,7 +170,7 @@ editorial_calendar:
   cadence:
     blog_posts_per_month: 4
     email_newsletters_per_month: 2   # editorial newsletters, not campaign emails
-    social_posts_per_week: "See MARKETING-wine-ecommerce.md Section 6"
+    social_posts_per_week: "See companion/CHANNELS.MD"
   
   seasonal_content_windows:
     valentines:
