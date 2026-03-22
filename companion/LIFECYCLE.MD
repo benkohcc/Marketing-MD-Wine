@@ -1,6 +1,7 @@
 # LIFECYCLE.MD — Wine E-Commerce
-*Companion file to MARKETING-wine-ecommerce.md — Customer value tiers, winback rules, and lifecycle strategy*
+*Companion file to MARKETING-wine-ecommerce.md — Customer value tiers, lifecycle stage definitions, post-purchase sequences, and lifecycle strategy*
 *Loaded by: lifecycle-analysis skill, plan-campaign skill, winback agents*
+*Authority: This file contains customer value tiers (Sec 1), lifecycle stage definitions and transitions (Sec 6), post-purchase sequences (Sec 7), and lifecycle × persona matrix (Sec 8). MARKETING.md Section 7 defers entirely to this file.*
 
 ---
 
@@ -245,7 +246,148 @@ lifecycle_milestones:
 
 ---
 
-## 6. Versioning
+## 6. Lifecycle Stage Definitions & Transitions
+
+> These stages define the operational state of each customer and drive triggered messaging. Unlike customer value tiers (Section 1), these stages are transient — a customer moves between them based on purchase behavior. Wine buyers do not move linearly: a Collector may be dormant for 8 months and then drop $800 in a single pre-order. Dormancy is not always churn.
+
+```yaml
+lifecycle_stages:
+
+  new:
+    definition: "First purchase made within the last 60 days"
+    goal: "Drive second purchase before the initial excitement fades"
+    primary_kpi: second_purchase_rate_30d
+    success_threshold: "35%+ convert to second purchase within 30 days"
+    marketing_response: first_purchase_welcome_sequence
+    transition_to_active:
+      condition: "second purchase made"
+    transition_to_at_risk:
+      condition: "no second purchase within 60 days of first"
+    persona_note: "Explorers and Gifters move here fastest. Collectors and Loyalists may skip — they often arrive already knowing exactly what they want."
+
+  active:
+    definition: "2+ lifetime purchases; last purchase within 90 days"
+    goal: "Increase purchase frequency and deepen category preference"
+    primary_kpi: purchase_frequency_90d
+    success_threshold: "3+ purchases per rolling 90-day window"
+    marketing_response: standard_campaign_cadence
+    transition_to_at_risk:
+      condition: "no purchase in 90 days"
+    loyalty_upgrade_trigger: "5+ purchases OR CLV > $500 — consider Loyalist persona reclassification"
+
+  at_risk:
+    definition: "Previously active; no purchase in 90–180 days OR churn_risk_score > 0.50"
+    goal: "Re-engage before full lapse — this is a softer touch than winback"
+    primary_kpi: reactivation_rate
+    success_threshold: "20%+ make a purchase within 30 days of at-risk sequence"
+    marketing_response: soft_reengagement_sequence
+    important: "This is NOT a winback campaign. No hard offer. Show what is new."
+    transition_to_active:
+      condition: "purchase made"
+    transition_to_lapsed:
+      condition: "no purchase after soft reengagement, or 180 days elapsed since last purchase"
+    persona_note: "Do not trigger at-risk for Collectors — their purchase cadence is naturally long. Only flag if churn_risk_score > 0.65."
+
+  lapsed:
+    definition: "No purchase in 180+ days AND churn_risk_score > 0.70"
+    goal: "Win back with a single well-crafted send, or sunset gracefully"
+    primary_kpi: winback_conversion_rate
+    success_threshold: "15%+ make a purchase within 30 days of winback send"
+    marketing_response: winback_campaign   # single send — see companion/CAMPAIGNS.MD: winback
+    transition_to_active:
+      condition: "purchase made"
+    transition_to_churned:
+      condition: "no response after 3 winback attempts across 180+ days"
+    persona_note: "A lapsed Collector with high historical CLV should be flagged for human review before any automated winback. Manual outreach from the store owner is often more effective."
+
+  churned:
+    definition: "No response after 3 winback attempts, or 365+ days since last purchase"
+    goal: "Suppress from campaign sends; retain address for annual re-permission attempt"
+    primary_kpi: re_permission_rate
+    marketing_response: annual_sunset_email   # one send per year — 'still want to hear from us?'
+    reactivation_path: "Manual only for CLV > $300 — flag for human review"
+```
+
+---
+
+## 7. Post-Purchase Sequences
+
+> These sequences fire after a transaction regardless of which campaign drove it. They are relationship-building, not promotional. Never frequency-cap away a day-0 order confirmation. The welcome sequence is the highest-leverage touchpoint in the customer lifecycle.
+
+```yaml
+post_purchase_sequences:
+
+  first_purchase_welcome:
+    trigger: "First purchase completed; customer lifecycle_stage transitions to 'new'"
+    channel: email
+    goal: "Confirm, orient, and plant the seed for the second purchase"
+    sends:
+      - timing: immediate
+        type: order_confirmation
+        tone: "Warm and practical — confirm the order, express genuine enthusiasm for the wine they chose"
+        content: "Order details + one sentence about the wine they bought (pull from tasting_notes) + shipping ETA"
+
+      - timing: day_3
+        type: product_guidance
+        tone: "Knowledgeable and generous — help them get the most from what they bought"
+        content_angle: "Serving temperature, decanting guidance if applicable, food pairing specific to their SKU. Pull from product catalog metadata."
+        persona_adaptation:
+          Explorer: "Frame as 'now that you have it, here is what makes it special'"
+          Gifter: "Frame as 'here is what to tell them about the wine you chose'"
+
+      - timing: day_14
+        type: discovery_nudge
+        tone: "Curious, not pushy — 'based on what you loved...'"
+        content: "2–3 recommendations from get_recommendations(context: 'email') seeded by their purchase"
+        call_to_action: "Soft — browse, not buy"
+
+    suppression: "Respect global frequency cap on day 14 send only. Day 0 and Day 3 are exempt — they are transactional."
+
+  repeat_purchase_acknowledgment:
+    trigger: "5th or 10th purchase milestone"
+    channel: email
+    delay_hours: 24   # let the order confirmation land first
+    goal: "Recognize loyalty without false intimacy — one genuine line, then value"
+    tone: "Brief and real — 'you know your wine. here is something you probably haven't tried.'"
+    content: "One curated recommendation from their varietal affinity profile, with a producer note"
+
+  high_value_order_followup:
+    trigger: "Order AOV > $200"
+    channel: email
+    delay_hours: 48
+    goal: "Reinforce confidence in a significant purchase — validate, add context"
+    tone: "Knowledgeable and assured — they made a good call, here is why"
+    content: "Drinking window guidance for their specific SKU + cellar or storage tip if applicable"
+    suppress_if: "customer has placed 3+ orders above $200 — they do not need reassurance"
+    persona_note: "Collector persona: include press score and vintage notes if available. Loyalist: emphasize the producer relationship."
+
+  gift_purchase_followup:
+    trigger: "Gift wrapping selected, gift message submitted, or ship-to address differs from billing"
+    channel: email
+    delay_days: 3_after_estimated_delivery
+    goal: "Close the gifting loop and seed the next occasion"
+    tone: "Warm and occasion-aware"
+    content: "Hope the gift landed well + plant the next occasion ('Mother's Day is [N] weeks away')"
+    internal_action: "Tag customer as Gifter persona if not already classified. Add next relevant occasion to reminder queue."
+```
+
+---
+
+## 8. Lifecycle × Persona Matrix
+
+> Wine personas do not move through the lifecycle at the same speed or in the same pattern. This matrix tells AI agents what to expect and how to adapt when lifecycle stage and persona intersect.
+
+| Persona | Typical Journey Shape | Normal Dormancy Period | At-Risk Signal | Winback Approach |
+|---------|----------------------|----------------------|---------------|-----------------|
+| Explorer | Fast to active; can stall if no new discovery stimulus | 30–60 days | No blog or PDP engagement for 60 days | New arrival in a region they've browsed; knowledge hook |
+| Gifter | Bursty — occasion-driven; long gaps between purchases are *normal* | 60–120 days between occasions | Missing a historically purchased occasion window | Next occasion reminder; gift framing |
+| Loyalist | Linear and consistent once established; a long gap is a genuine signal | 30–45 days | Silence during a new arrival in their preferred varietal | New arrival in their category; insider framing |
+| Deal Seeker | Promotion-activated; dormancy between promotions is *expected* | 60–90 days between promotion windows | Not opening promotional emails | Strong offer; urgency; do not use story-led copy |
+| Collector | Very long natural cadence; 6–8 months between purchases is normal | Up to 180 days | Missing a pre-order or allocation event they historically engaged | Allocation or vintage-specific outreach; never discount |
+
+---
+
+## 9. Versioning
 
 ```yaml
 lifecycle_md_wine:

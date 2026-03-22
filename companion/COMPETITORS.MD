@@ -1,6 +1,7 @@
 # COMPETITORS.MD — Wine E-Commerce
 *Companion file to MARKETING-wine-ecommerce.md — Competitive intelligence and response rules*
 *Loaded by: Content agents, ad copy agents; only when producing comparative content*
+*Authority: This file contains the full competitive landscape, repositioning statements, and competitive response triggers. MARKETING.md Section 21 contains competitive mention prohibitions (universal governance); this file contains implementation detail and response scenarios.*
 
 ---
 
@@ -102,6 +103,14 @@ response_triggers:
   - trigger: "A winemaker or producer we carry also begins selling through a competitor"
     agent_action: "No action — not a crisis; acknowledge if asked"
     our_response: "Our relationship with [producer] is strong. We're delighted to carry their wines and tell the full story behind them."
+
+  - trigger: "Competitor launches a wine club or subscription directly competing with our model"
+    agent_action: "Human review only — do not modify live campaigns"
+    human_decides: "Whether to update positioning; review battle cards"
+
+  - trigger: "High-profile winemaker or producer we carry also launches with a competitor"
+    response: "Lead with our relationship and curation story — do not mention competitor"
+    agent_action: "Update new arrival campaign copy to strengthen our relationship angle"
 ```
 
 ---

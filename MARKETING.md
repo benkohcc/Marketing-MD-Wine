@@ -207,182 +207,20 @@ Voice is constant. Tone adjusts to context.
 
 ## 4. Campaign Types
 
-> Every campaign has exactly one type. Type determines default channels, tone angle, KPI hierarchy, send cadence, and suppression behavior. Agents must not override these defaults without a campaign-brief-level instruction.
+> Every campaign has exactly one type. Full blueprints (triggers, tone angles, KPIs, send cadence, suppression rules, and copy guidance) are in **companion/CAMPAIGNS.MD**, loaded by all campaign-planning agents.
 
----
+### Campaign Type Glossary
 
-### Type: new_arrival
-
-```yaml
-trigger: "Human queue request, or new SKU detected in catalog"
-default_channels: [email, social]
-tone_angle: "Excitement and discovery — lead with story, not sell. The wine arrives; let it speak."
-primary_kpis: [pdp_view_rate, add_to_cart_rate, view_to_cart_rate]
-secondary_kpis: [email_open_rate, social_engagement_rate]
-budget_range: "$200–500"
-send_cadence: "Single launch send on arrival_date. Optional teaser 48h prior if brief notes request it. No reminder send."
-discount: false
-paid_media: false  # Retargeting allowed after day 7 if view_to_cart_rate > 10%
-primary_personas: [Explorer, Loyalist]
-suppression_notes: "No post-purchase suppression — this is awareness. Do not suppress recent buyers of similar wines."
-```
-
-**Copy guidance:** Never include a discount code or urgency language. Lead with the winemaker story or vintage conditions. The PDP update should carry "Just arrived — here's what makes this special" framing, not promotional language.
-
----
-
-### Type: promotion
-
-```yaml
-trigger: "Human queue request, or inventory overstock detected above margin threshold"
-default_channels: [email, paid, social]
-tone_angle: "Offer-forward, then justified by wine story. The discount leads. The story is why it's worth buying even at full price."
-primary_kpis: [units_sold, revenue, email_conversion_rate, paid_roas]
-secondary_kpis: [discount_redemption_rate, margin_impact]
-budget_range: "8–12% of GMV target"
-send_cadence: "Day 1 launch → Day 3 reminder to non-openers → Day before expiry final send"
-discount: true  # discount_code required in brief
-paid_media: true
-primary_personas: [Deal Seeker, Loyalist]
-suppression_notes: "Suppress customers who purchased at full price in last 60 days. Add to suppression list at purchase during campaign."
-```
-
-**Copy guidance:** Lead every asset with the discount code prominently. Subject line A: discount-led ("15% off today"). Subject line B: urgency-led ("Your Bordeaux window is closing"). PDP short description must include the offer alongside tasting notes.
-
----
-
-### Type: limited_allocation
-
-```yaml
-trigger: "Human queue request, or high_intent + stock < 30 units detected"
-default_channels: [email, social]
-tone_angle: "Scarcity and exclusivity — honest about the number. State the exact allocation in the opening line."
-primary_kpis: [sell_through_speed, time_to_sellout]
-secondary_kpis: [email_open_rate, tier_1_vs_tier_2_conversion_split]
-budget_range: "$100–200"
-send_cadence: "Single send to top 20% CLV first. If allocation_units > 50% remain after 48h, second wave to broader segment. No further sends."
-discount: false  # Scarcity is the mechanism, not price
-paid_media: false  # Paid spend on allocation campaigns signals desperation
-primary_personas: [Loyalist, Collector]
-suppression_notes: "Auto-cancel all queued sends when inventory alert fires for this SKU."
-```
-
-**Copy guidance:** State the exact number of bottles or cases in the opening line. Never include a discount code. Social posts use bold, honest quantity language ("Only 24 cases. Gone when they're gone."). When the SKU sells out, publish a sold-out post immediately.
-
----
-
-### Type: seasonal
-
-```yaml
-trigger: "Human queue request, or upcoming event in seasonal_calendar within lead_time_days"
-default_channels: [email, paid, social]
-tone_angle: "Occasion-first, gift-framing, warm. The wine is the answer to the occasion moment, not a product being pushed."
-primary_kpis: [revenue, new_customer_acquisition_rate]
-secondary_kpis: [email_open_rate, attribution_complexity_note]
-budget_range: "Highest budget allocation of all campaign types"
-send_cadence: "7 days before occasion → 2 days before → on-the-day (email). Social: 7 days before + 2 days before + on-the-day. Paid: run full window."
-discount: false  # Optional — include only if margin and positioning allow
-paid_media: true  # Prospecting allowed — gift buyers who don't know the store are valid targets
-primary_personas: [Gifter, Explorer]
-suppression_notes: "No post-purchase suppression — seasonal gifts are bought for others. Concurrent campaigns may confound attribution; note in retrospective."
-```
-
-**Copy guidance:** Occasion leads in every asset. The wine is the answer, not the subject. For multi-SKU seasonal briefs, use carousel format in social to show options. Paid copy includes the occasion prominently ("Perfect for Mother's Day").
-
----
-
-### Type: winback
-
-```yaml
-trigger: "churn_risk_score > 0.70 detected in segment, or human queue request"
-default_channels: [email]
-tone_angle: "Personal, warm, non-pushy. Lead with the relationship, not the product. Acknowledge the gap. No urgency."
-primary_kpis: [reactivation_rate, second_purchase_rate_90d]
-secondary_kpis: [email_open_rate]
-budget_range: "$0 paid spend"
-send_cadence: "Single send only. No follow-up. No reminder."
-discount: false  # Prefer soft offer (free shipping) over discount — discount signals desperation
-paid_media: false  # Winback is a CRM play, never acquisition
-primary_personas: [Loyalist, Explorer]
-suppression_notes: "Suppress anyone who received a winback email in the last 60 days. Check is_suppressed() before every trigger. Add 60-day suppression after send."
-```
-
-**Copy guidance:** Subject line is relationship-led ("We've been thinking about you"). Body acknowledges the gap warmly, shows what's new since they last visited, soft offer (if any) at the very end. No urgency language anywhere.
-
----
-
-### Type: educational
-
-```yaml
-trigger: "SEO content request in queue, or demand gap with search_volume > 50/month"
-default_channels: [email, seo]
-tone_angle: "Genuinely informative — write as an expert, not a salesperson. No selling until the very end, and even then, softly."
-primary_kpis: [content_dwell_time, scroll_depth, pdp_click_rate]
-secondary_kpis: [downstream_conversion_rate_14d]
-budget_range: "$0 paid spend"
-send_cadence: "Single send. No reminder."
-discount: false
-paid_media: false
-primary_personas: [Explorer]
-suppression_notes: "Standard fatigue guard applies. No post-purchase suppression — educational content is for everyone."
-```
-
-**Copy guidance:** Blog posts 1,200–1,500 words. H2 subheadings required for SEO. CTA at end is soft ("Explore our Barolo collection"), never a hard sell. Email subject line is knowledge-led ("The definitive guide to Barolo's eleven communes"). No discount code, no urgency language anywhere.
-
----
-
-### Type: bundle
-
-```yaml
-trigger: "Human queue request, or strong get_frequently_bought_together signal"
-default_channels: [email, social]
-tone_angle: "Pairing concept — these were made for each other. The logic of why they belong together matters as much as the offer."
-primary_kpis: [avg_order_value, basket_size]
-secondary_kpis: [revenue, units_sold_per_sku]
-budget_range: "$200–400"
-send_cadence: "Launch send → one reminder at day 5."
-discount: false  # Optional price framing — call out bundle value, not discount
-paid_media: false  # Light retargeting only, no prospecting
-primary_personas: [Explorer, Gifter]
-suppression_notes: "Suppress customers who already purchased both bundle SKUs."
-```
-
-**Copy guidance:** Call `get_frequently_bought_together()` to validate the pairing rationale before briefing. The pairing story must be specific — why these two wines, why together, why now. Social visual: both bottles together. Do not lead with price.
-
----
-
-### Type: pre_order
-
-```yaml
-trigger: "Human queue request for an upcoming arrival"
-default_channels: [email, social]
-tone_angle: "Insider access, anticipation, future-facing. You're being invited in before anyone else."
-primary_kpis: [reservation_count, deposit_completion_rate]
-secondary_kpis: [email_open_rate, social_click_through_rate]
-budget_range: "$100–200"
-send_cadence: "Launch send when reservation opens → reminder 3 days before close → fulfilment send on arrival_date."
-discount: false  # Early access exclusivity is the value — discounts cheapen it
-paid_media: false
-primary_personas: [Loyalist, Collector]
-suppression_notes: "No inventory constraint — set allocation_units as a cap if applicable. Track drop-off between email open → reservation page → completion."
-```
-
-**Copy guidance:** Arrival date must appear prominently in the email. Subject line is exclusivity-led ("Reserve yours before it arrives"). Build desire around what's coming — don't oversell a wine the customer hasn't tasted yet.
-
----
-
-### Campaign Type Quick Reference
-
-| Type | Channels | Discount | Paid | Primary KPI | Primary Persona |
-|------|---------|---------|------|------------|----------------|
-| new_arrival | email, social | No | No | pdp_view_rate | Explorer, Loyalist |
-| promotion | email, paid, social | Yes | Yes | units_sold, revenue | Deal Seeker, Loyalist |
-| limited_allocation | email, social | No | No | sell_through_speed | Loyalist, Collector |
-| seasonal | email, paid, social | Optional | Yes | revenue | Gifter, Explorer |
-| winback | email | Optional (soft) | No | reactivation_rate | Loyalist, Explorer |
-| educational | email, seo | No | No | content_dwell_time | Explorer |
-| bundle | email, social | Optional | No | avg_order_value | Explorer, Gifter |
-| pre_order | email, social | No | No | reservation_count | Loyalist, Collector |
+| Type | What it is | Discount | Paid | Primary Persona |
+|------|-----------|---------|------|----------------|
+| `new_arrival` | Single-send launch when a new SKU arrives | No | No | Explorer, Loyalist |
+| `promotion` | Discount campaign; offer leads | Yes | Yes | Deal Seeker, Loyalist |
+| `limited_allocation` | Scarcity-driven sell; quantity stated upfront | No | No | Loyalist, Collector |
+| `seasonal` | Occasion-anchored campaign (Mother's Day, holiday, etc.) | Optional | Yes | Gifter, Explorer |
+| `winback` | Single-send relationship re-open for lapsed customers | Optional (soft) | No | Loyalist, Explorer |
+| `educational` | SEO blog or knowledge email; no selling | No | No | Explorer |
+| `bundle` | Pairing-concept campaign for frequently bought together SKUs | Optional | No | Explorer, Gifter |
+| `pre_order` | Reservation campaign for upcoming arrivals | No | No | Loyalist, Collector |
 
 ---
 
@@ -494,264 +332,15 @@ calendar:
 
 ## 6. Channel Strategy
 
-### Email
+> Full per-channel configuration — email frequency caps, list health rules, A/B testing defaults, paid media platform rules, social post frequency, SEO content cadence, and on-site ad configuration — is in **companion/CHANNELS.MD**, loaded by email agents, paid media agents, social agents, and SEO agents.
 
-```yaml
-email:
-  esp: "[Provider — Klaviyo / Mailchimp / Braze / etc.]"
-  sender_name: "[Store Name]"
-  sender_address: "hello@[domain]"
-  reply_to: "hello@[domain]"
-  
-  frequency_caps:
-    max_per_week: 3
-    min_days_between_campaign_sends: 2
-    exceptions: [transactional, cart_abandon, post_purchase_confirmation]
-  
-  list_health:
-    sunset_after_days: 180        # suppress unengaged subscribers after 6 months
-    reengagement_threshold_days: 90
-    hard_bounce_auto_suppress: true
-    spam_complaint_auto_suppress: true
-    invalid_address_auto_suppress: true
-  
-  a_b_testing:
-    default_split: "50/50"
-    winner_metric: open_rate      # for awareness; override to conversion_rate for promotional
-    min_sample_size: 200
-    winner_after_hours: 4
-  
-  behavioral_triggers:
-    cart_abandon_delay_minutes: 45
-    suppress_if_purchased: true
-    winback_delay_minutes: 0      # fire winback on schedule, not triggered
-```
-
-### Paid Media
-
-```yaml
-paid:
-  platforms: [google, meta, pinterest]
-  
-  google:
-    default_bidding: target_roas
-    target_roas: 4.0              # adjust per category margin
-    shopping_feed_sync: daily
-    in_stock_only: true           # never show ads for OOS SKUs
-  
-  meta:
-    default_bidding: target_roas
-    prospecting_allowed: true     # for seasonal campaigns only
-    retargeting_window_days: 14
-    lookalike_source: "Champions segment"
-  
-  pinterest:
-    use_for: [seasonal, bundle, new_arrival]
-    avoid_for: [winback, educational, limited_allocation]
-  
-  global_rules:
-    pause_on_out_of_stock: true    # immediate — check-inventory triggers this
-    min_roas_before_pause: 2.0
-    creative_refresh_days: 21
-    never_run_paid_for: [winback, educational, limited_allocation, pre_order]
-```
-
-### Social
-
-```yaml
-social:
-  platforms: [instagram, facebook, pinterest]
-  
-  post_frequency:
-    instagram: "4–5 posts / week"
-    facebook: "3–4 posts / week"
-    pinterest: "5–7 pins / week (evergreen emphasis)"
-  
-  content_mix:
-    campaign_posts_pct: 50
-    organic_editorial_pct: 35
-    ugc_or_reposts_pct: 15
-  
-  hashtag_strategy: "3–5 targeted hashtags on Instagram. Category terms (#burgundywine, #pinotnoir), occasion terms (#winetasting, #winepairing), and one brand tag. Never generic (#wine) alone."
-  
-  link_in_bio_priority: "Active seasonal or limited allocation campaign takes priority. Rotate to new arrival if no time-sensitive campaign is live."
-  
-  sold_out_posts: true    # when limited_allocation campaign sells out, publish sold-out post immediately
-```
-
-### SEO / Content
-
-```yaml
-seo:
-  primary_intents: [informational, transactional]
-  
-  content_cadence:
-    blog_posts_per_month: 4
-    product_description_refresh_days: 90
-    region_guide_cadence: "One new region guide per quarter"
-  
-  target_kpis:
-    content_dwell_time_seconds: 180
-    pdp_click_rate_from_content: 0.12
-    content_to_purchase_rate_14d: 0.03
-  
-  high_value_content_types:
-    - varietal_explainer          # What is Barolo? What makes it different?
-    - region_guide                # The Wine Regions of Burgundy
-    - drinking_window_guide       # When to open your 2019 Bordeaux
-    - food_pairing_guide          # Wine for Thanksgiving: a complete guide
-    - vintage_assessment          # Is the 2021 Napa Cab worth buying?
-  
-  content_seo_rules:
-    - "Always include the varietal name in the H1"
-    - "Drinking window guidance must be specific (year, not 'soon')"
-    - "Food pairings must be specific dishes, not categories"
-    - "Internal link to 1–3 relevant PDPs per blog post"
-    - "Never stuff keywords — write for the Explorer persona, not a search engine"
-```
+**Universal frequency constraint (applies regardless of channel):** No customer may receive more than 3 marketing emails in any 7-day rolling window. Transactional sends (order confirmation, cart abandon, post-purchase confirmation) are exempt. This constraint is non-negotiable and takes precedence over any campaign brief instruction.
 
 ---
 
 ## 7. Customer Lifecycle Journey
 
-> The lifecycle defines what *state* a customer is in and what the system does to move them forward. Unlike campaign types — which are broadcast logic — the lifecycle layer is per-customer and operates continuously. AI agents use lifecycle stage as a secondary targeting signal in campaign planning and as the primary driver of triggered messaging. Wine buyers do not move through lifecycles linearly — a Collector may be dormant for 8 months and then drop $800 in a single pre-order session. Dormancy is not always churn. The model must account for this.
-
-### Stage Definitions & Transitions
-
-```yaml
-lifecycle_stages:
-
-  new:
-    definition: "First purchase made within the last 60 days"
-    goal: "Drive second purchase before the initial excitement fades"
-    primary_kpi: second_purchase_rate_30d
-    success_threshold: "35%+ convert to second purchase within 30 days"
-    marketing_response: first_purchase_welcome_sequence
-    transition_to_active:
-      condition: "second purchase made"
-    transition_to_at_risk:
-      condition: "no second purchase within 60 days of first"
-    persona_note: "Explorers and Gifters move here fastest. Collectors and Loyalists may skip — they often arrive already knowing exactly what they want."
-
-  active:
-    definition: "2+ lifetime purchases; last purchase within 90 days"
-    goal: "Increase purchase frequency and deepen category preference"
-    primary_kpi: purchase_frequency_90d
-    success_threshold: "3+ purchases per rolling 90-day window"
-    marketing_response: standard_campaign_cadence
-    transition_to_at_risk:
-      condition: "no purchase in 90 days"
-    loyalty_upgrade_trigger: "5+ purchases OR CLV > $500 — consider Loyalist persona reclassification"
-
-  at_risk:
-    definition: "Previously active; no purchase in 90–180 days OR churn_risk_score > 0.50"
-    goal: "Re-engage before full lapse — this is a softer touch than winback"
-    primary_kpi: reactivation_rate
-    success_threshold: "20%+ make a purchase within 30 days of at-risk sequence"
-    marketing_response: soft_reengagement_sequence
-    important: "This is NOT a winback campaign. No hard offer. Show what is new."
-    transition_to_active:
-      condition: "purchase made"
-    transition_to_lapsed:
-      condition: "no purchase after soft reengagement, or 180 days elapsed since last purchase"
-    persona_note: "Do not trigger at-risk for Collectors — their purchase cadence is naturally long. Only flag if churn_risk_score > 0.65."
-
-  lapsed:
-    definition: "No purchase in 180+ days AND churn_risk_score > 0.70"
-    goal: "Win back with a single well-crafted send, or sunset gracefully"
-    primary_kpi: winback_conversion_rate
-    success_threshold: "15%+ make a purchase within 30 days of winback send"
-    marketing_response: winback_campaign   # single send — see campaign type: winback
-    transition_to_active:
-      condition: "purchase made"
-    transition_to_churned:
-      condition: "no response after 3 winback attempts across 180+ days"
-    persona_note: "A lapsed Collector with high historical CLV should be flagged for human review before any automated winback. Manual outreach from the store owner is often more effective."
-
-  churned:
-    definition: "No response after 3 winback attempts, or 365+ days since last purchase"
-    goal: "Suppress from campaign sends; retain address for annual re-permission attempt"
-    primary_kpi: re_permission_rate
-    marketing_response: annual_sunset_email   # one send per year — 'still want to hear from us?'
-    reactivation_path: "Manual only for CLV > $300 — flag for human review"
-```
-
----
-
-### Post-Purchase Sequences
-
-> These sequences fire after a transaction regardless of which campaign drove it. They are relationship-building, not promotional. Never frequency-cap away a day-0 order confirmation. The welcome sequence is the highest-leverage touchpoint in the customer lifecycle — a customer who just bought wine is maximally engaged.
-
-```yaml
-post_purchase_sequences:
-
-  first_purchase_welcome:
-    trigger: "First purchase completed; customer lifecycle_stage transitions to 'new'"
-    channel: email
-    goal: "Confirm, orient, and plant the seed for the second purchase"
-    sends:
-      - timing: immediate
-        type: order_confirmation
-        tone: "Warm and practical — confirm the order, express genuine enthusiasm for the wine they chose"
-        content: "Order details + one sentence about the wine they bought (pull from tasting_notes) + shipping ETA"
-
-      - timing: day_3
-        type: product_guidance
-        tone: "Knowledgeable and generous — help them get the most from what they bought"
-        content_angle: "Serving temperature, decanting guidance if applicable, food pairing specific to their SKU. Pull from product catalog metadata."
-        persona_adaptation:
-          Explorer: "Frame as 'now that you have it, here is what makes it special'"
-          Gifter: "Frame as 'here is what to tell them about the wine you chose'"
-
-      - timing: day_14
-        type: discovery_nudge
-        tone: "Curious, not pushy — 'based on what you loved...'"
-        content: "2–3 recommendations from get_recommendations(context: 'email') seeded by their purchase"
-        call_to_action: "Soft — browse, not buy"
-
-    suppression: "Respect global frequency cap on day 14 send only. Day 0 and Day 3 are exempt — they are transactional."
-
-  repeat_purchase_acknowledgment:
-    trigger: "5th or 10th purchase milestone"
-    channel: email
-    delay_hours: 24   # let the order confirmation land first
-    goal: "Recognize loyalty without false intimacy — one genuine line, then value"
-    tone: "Brief and real — 'you know your wine. here is something you probably haven't tried.'"
-    content: "One curated recommendation from their varietal affinity profile, with a producer note"
-
-  high_value_order_followup:
-    trigger: "Order AOV > $200"
-    channel: email
-    delay_hours: 48
-    goal: "Reinforce confidence in a significant purchase — validate, add context"
-    tone: "Knowledgeable and assured — they made a good call, here is why"
-    content: "Drinking window guidance for their specific SKU + cellar or storage tip if applicable"
-    suppress_if: "customer has placed 3+ orders above $200 — they do not need reassurance"
-    persona_note: "Collector persona: include press score and vintage notes if available. Loyalist: emphasize the producer relationship."
-
-  gift_purchase_followup:
-    trigger: "Gift wrapping selected, gift message submitted, or ship-to address differs from billing"
-    channel: email
-    delay_days: 3_after_estimated_delivery
-    goal: "Close the gifting loop and seed the next occasion"
-    tone: "Warm and occasion-aware"
-    content: "Hope the gift landed well + plant the next occasion ('Mother's Day is [N] weeks away')"
-    internal_action: "Tag customer as Gifter persona if not already classified. Add next relevant occasion to reminder queue."
-```
-
----
-
-### Lifecycle × Persona Matrix
-
-> Wine personas do not move through the lifecycle at the same speed or in the same pattern. This matrix tells AI agents what to expect and how to adapt when lifecycle stage and persona intersect.
-
-| Persona | Typical Journey Shape | Normal Dormancy Period | At-Risk Signal | Winback Approach |
-|---------|----------------------|----------------------|---------------|-----------------|
-| Explorer | Fast to active; can stall if no new discovery stimulus | 30–60 days | No blog or PDP engagement for 60 days | New arrival in a region they've browsed; knowledge hook |
-| Gifter | Bursty — occasion-driven; long gaps between purchases are *normal* | 60–120 days between occasions | Missing a historically purchased occasion window | Next occasion reminder; gift framing |
-| Loyalist | Linear and consistent once established; a long gap is a genuine signal | 30–45 days | Silence during a new arrival in their preferred varietal | New arrival in their category; insider framing |
-| Deal Seeker | Promotion-activated; dormancy between promotions is *expected* | 60–90 days between promotion windows | Not opening promotional emails | Strong offer; urgency; do not use story-led copy |
-| Collector | Very long natural cadence; 6–8 months between purchases is normal | Up to 180 days | Missing a pre-order or allocation event they historically engaged | Allocation or vintage-specific outreach; never discount |
+> Full lifecycle configuration — stage definitions and transitions, post-purchase sequences, and the lifecycle × persona matrix — is in **companion/LIFECYCLE.MD**, loaded by all lifecycle-analysis agents, the plan-campaign skill, and winback agents.
 
 ---
 
@@ -1476,26 +1065,7 @@ competitive_mention_policy:
     - "Never disparage a producer — the wine community is small"
 ```
 
-### Competitive Response Triggers
-
-```yaml
-competitive_triggers:
-  - trigger: "Major online wine retailer announces significant discount campaign"
-    response: "Alert; do not auto-match pricing — maintain price integrity"
-    agent_action: "Flag in planning queue; human decides on response"
-  
-  - trigger: "Competitor launches a wine club or subscription competing with ours"
-    response: "Review positioning; update battle cards"
-    agent_action: "Human review only — do not modify live campaigns"
-  
-  - trigger: "Competitor faces PR crisis (contamination, fraud, legal action)"
-    response: "Do not capitalize — this will be seen as opportunistic and will damage brand"
-    agent_action: "Suppress any comparative content scheduled; maintain neutral tone"
-  
-  - trigger: "High-profile winemaker or producer we carry also launches with a competitor"
-    response: "Lead with our relationship and curation story — do not mention competitor"
-    agent_action: "Update new arrival campaign copy to strengthen our relationship angle"
-```
+> Full competitive response scenarios — trigger conditions, agent actions, and repositioning statements by competitor type — are in **companion/COMPETITORS.MD**, loaded by content agents and ad copy agents.
 
 ---
 
@@ -1595,8 +1165,9 @@ naming_conventions:
     channel_codes: {email: em, paid_search: ps, paid_social: ps2, instagram: ig, facebook: fb, pinterest: pt, seo: seo}
     asset_types: {subject_line: subject, email_body: body, ad_headline: hdl, social_caption: cap, blog_post: blog, product_description: pdp}
   
-  utm_campaign: "[campaign_id]"    # UTM campaign = campaign_id for clean attribution linkage
 ```
+
+> UTM standards and attribution linkage rules are in **companion/MEASUREMENT.MD**.
 
 ### Content Tagging Taxonomy
 
@@ -1799,11 +1370,11 @@ companion_files:
     last_updated: "2026-03-21"
   
   - file: "COMPETITORS.MD"
-    purpose: "Per-competitor profiles, repositioning statements, objection responses, competitive response triggers"
+    purpose: "Per-competitor profiles, repositioning statements, objection responses, competitive response triggers, and competitive mention implementation detail"
     loaded_by: [content_agents, ad_copy_agents, campaign_agents]
     required_for: "Any agent producing comparative content or responding to competitor price/product changes"
-    version: "1.0.0"
-    last_updated: "2026-03-21"
+    version: "1.1.0"
+    last_updated: "2026-03-22"
   
   - file: "PARTNERS.MD"
     purpose: "Per-partner branding rules, co-marketing configuration, affiliate disclosure templates, MDF budgets"
@@ -1834,11 +1405,25 @@ companion_files:
     last_updated: "2026-03-21"
   
   - file: "LIFECYCLE.MD"
-    purpose: "Customer value tiers, loyalty program configuration, cross-sell/upsell rules, acquisition/retention detailed rules"
-    loaded_by: [analyze_segments_skill, send_emails_skill, plan_campaign_skill]
-    required_for: "Any agent managing customer lifecycle transitions or producing CLV-based targeting"
+    purpose: "Customer value tiers, loyalty program configuration, lifecycle stage definitions and transitions, post-purchase sequences, lifecycle × persona matrix, cross-sell/upsell rules"
+    loaded_by: [lifecycle_agents, analyze_segments_skill, send_emails_skill, plan_campaign_skill, winback_agents]
+    required_for: "Any agent managing customer lifecycle transitions, producing CLV-based targeting, or planning winback campaigns"
+    version: "1.1.0"
+    last_updated: "2026-03-22"
+
+  - file: "CAMPAIGNS.MD"
+    purpose: "Full campaign type blueprints — triggers, tone angles, KPI hierarchy, send cadence, discount rules, paid media rules, suppression notes, and copy guidance for all 8 campaign types"
+    loaded_by: [plan_campaign_skill, all_campaign_planning_agents, campaign_execution_agents]
+    required_for: "Any agent planning or executing a campaign — required to read before creating a campaign brief"
     version: "1.0.0"
-    last_updated: "2026-03-21"
+    last_updated: "2026-03-22"
+
+  - file: "CHANNELS.MD"
+    purpose: "Per-channel execution configuration — email ESP settings, list health rules, A/B testing defaults, paid media platform rules, social post frequency and content mix, SEO content cadence, on-site ad configuration"
+    loaded_by: [email_agents, paid_media_agents, social_agents, seo_agents]
+    required_for: "Any agent executing channel-specific actions — email sends, paid campaigns, social publishing, SEO content"
+    version: "1.0.0"
+    last_updated: "2026-03-22"
 
 session_start_protocol:
   required_reads: [MARKETING-wine-ecommerce.md, SAFETY.MD]
