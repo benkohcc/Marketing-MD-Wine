@@ -1297,105 +1297,18 @@ marketing_md:
 ## 16. Brand Positioning & Messaging Framework
 
 > Voice & Tone governs how we speak. This section governs what we say. Every piece of AI-generated copy must trace back to a messaging pillar. Claims not in the approved library must not be published without human review — this is the primary guardrail against hallucinated facts.
+>
+> Full messaging pillars, approved claims library, per-persona copy angles, and anti-hallucination rules are in **companion/MESSAGING.MD**, loaded by all content-generating agents.
 
 ### Positioning Statement
 
 ```yaml
 positioning:
-  category: "Curated direct-to-consumer wine retail"
-  target_customer: "US adults who care about what's in their glass and want a source they can trust"
-  key_benefit: "Every bottle we sell is one we'd recommend to a friend — no filler, no hype"
-  reason_to_believe: "We choose every SKU by hand against a defined quality standard, and we tell the truth about what we've chosen"
-  
   statement: "For wine buyers who are tired of algorithm-driven shelves and inflated tasting notes, [Store] is the curated wine retailer that matches the right wine to the right person — because we know our wines and our customers well enough to make that match."
+
+  pillars: ["Honest Curation", "Knowledge Without Pretension", "Right Wine, Right Customer"]
+  # Full pillar definitions, approved phrases, and per-persona copy angles: see companion/MESSAGING.MD
 ```
-
-### Messaging Pillars
-
-```yaml
-messaging_pillars:
-  pillar_1:
-    name: "Honest Curation"
-    core_claim: "Every wine in our catalog is here because someone chose it — not because it hit a volume threshold or paid for placement"
-    proof_points:
-      - "Every SKU is selected against a defined quality and value standard"
-      - "We drop wines that no longer meet the standard — our catalog size reflects curation, not accumulation"
-    approved_phrases:
-      - "Hand-selected"
-      - "Every bottle earns its place"
-      - "We wouldn't sell it if we wouldn't recommend it"
-    copy_angle_by_persona:
-      Explorer: "We pick so you can discover — every wine here has a reason to be here"
-      Loyalist: "You trust us to get it right. We take that seriously."
-      Collector: "No filler. No compromise. The catalog reflects that."
-      Gifter: "When you buy a gift here, you're buying a recommendation, not a guess"
-      Deal Seeker: "A deal on a wine we stand behind is a real deal"
-
-  pillar_2:
-    name: "Knowledge Without Pretension"
-    core_claim: "We know wine deeply and share that knowledge freely — because an informed customer is a loyal one"
-    proof_points:
-      - "Region guides, drinking window notes, and food pairings included with every product"
-      - "Educational content published monthly across varietals and regions"
-    approved_phrases:
-      - "Here's what makes this special"
-      - "What you should know before you open it"
-      - "The honest guide to [varietal/region]"
-    copy_angle_by_persona:
-      Explorer: "We'll teach you everything you want to know — and nothing you don't"
-      Collector: "We respect your depth. We'll match it."
-      Gifter: "We'll give you exactly what you need to sound like you know what you're doing"
-
-  pillar_3:
-    name: "Right Wine, Right Customer"
-    core_claim: "A Collector and a Gifter are buying from the same catalog for completely different reasons — we talk to them that way"
-    proof_points:
-      - "Persona-native copy across all campaigns — no one-size-fits-all messaging"
-      - "Recommendations driven by varietal affinity, occasion, and CLV — not just popularity"
-    approved_phrases:
-      - "Made for [occasion]"
-      - "Built for [persona-appropriate need]"
-      - "This one's for [specific person or moment]"
-```
-
-### Approved Claims Library
-
-```yaml
-approved_claims:
-  - claim: "Every wine in our catalog is hand-selected against a defined quality and value standard"
-    category: company
-    substantiation: "Internal curation process documentation"
-    channels_permitted: [all]
-    expiry_date: null
-
-  - claim: "We never run ads for wines that aren't in stock"
-    category: service
-    substantiation: "check-inventory skill pauses ads on out-of-stock SKUs automatically"
-    channels_permitted: [all]
-    expiry_date: null
-
-  - claim: "DTC wine shipping law varies by state — we verify eligibility before every order"
-    category: service
-    substantiation: "Compliance check in order flow"
-    channels_permitted: [all]
-    expiry_date: null
-
-  # Add press scores with source and date when used:
-  - claim: "[N] points — [Publication]"
-    category: product
-    substantiation: "[Publication name], [Issue/Date]"
-    channels_permitted: [email, on_site, paid]
-    expiry_date: "[Date — scores age; remove after 24 months]"
-```
-
-### Anti-Hallucination Rules
-
-- Never assert a wine score not in the approved claims library with a verified source and date
-- Never attribute a quote to a winemaker or critic without a verified source
-- Never describe a competitor's pricing or quality
-- Never claim "award-winning," "critic's pick," or "rated [N]+  points" without a specific, sourced claim entry
-- Press scores must include publication name and date — never use a score without both
-- If a claim cannot be traced to the approved library or product catalog, omit it and flag for human review
 
 ---
 
@@ -1534,17 +1447,9 @@ promotional_rules:
     allowed: false             # one discount mechanism at a time
     exception: "Free shipping may stack with a percentage discount if approved in brief"
   
-  channel_specific_pricing:
-    paid_ads: "List price only in ad copy unless discount_code is explicitly in approved brief"
-    email: "Discount permitted per campaign type defaults (promotion, seasonal)"
-    on_site: "Discount visible only when discount code is applied or campaign is active"
-    social: "Never state a price in organic social — always link to PDP"
-  
-  persona_pricing_rules:
-    never_discount_for: [Collector, Loyalist_in_preferred_category]
-    note: "Discounting for Collectors or Loyalists in their primary category damages the relationship. These customers buy on quality and access — not price."
-    discount_acceptable_for: [Deal_Seeker, lapsed_non_Collector, Gifter_in_seasonal_context]
 ```
+
+> For pricing tier definitions (tier_collector, tier_loyalist, etc.), channel-specific pricing rules, persona pricing rules, and bundle pricing configuration, see **companion/PRICING.MD**.
 
 ---
 
@@ -1589,81 +1494,7 @@ content_mix_targets:
   ugc_and_community: 10%
 ```
 
-### Content Quality Standards
-
-```yaml
-content_quality:
-  minimum_standards:
-    blog_word_count_min: 800
-    region_guide_word_count_min: 1200
-    product_description_word_count_min: 120
-    vintage_assessment_word_count_min: 300
-    originality: "No more than 15% overlap with existing indexed content"
-    fact_check: "All scores, vintages, and producer claims must be traceable to approved claims library or verified product catalog"
-    reading_level_target: "Grade 10–12 (Flesch-Kincaid) — knowledgeable but not academic"
-  
-  ai_content_rules:
-    disclosure_required: true          # EU AI Act Article 50 applies from August 2026
-    disclosure_format: "Machine-readable metadata tag on all AI-generated content"
-    human_review_required_for:
-      - "Any content making specific vintage quality assessments"
-      - "Any content featuring a winemaker's name or quote"
-      - "Any content claiming a press score or award"
-      - "Any content published to channels with > 10,000 followers"
-    human_review_turnaround_hours: 24
-  
-  wine_specific_standards:
-    - "Tasting notes must be specific — never use 'complex,' 'smooth,' or 'balanced' alone"
-    - "Drinking window must include a specific year range, not 'drink now' or 'cellar'"
-    - "Food pairings must name specific dishes, not categories ('duck confit,' not 'poultry')"
-    - "Vintage year must be included in any tasting note or description"
-    - "Producer name must be correct and complete on first reference"
-  
-  content_lifecycle:
-    refresh_cadence_days:
-      blog_post: 365           # annual refresh — check vintage info, update scores
-      region_guide: 730        # bi-annual
-      product_description: 90  # quarterly — update for vintage and inventory changes
-    archive_after_days: 1095   # 3 years for evergreen; sooner for vintage-specific
-    evergreen_tag: true        # guides and education are evergreen; vintage assessments are not
-```
-
-### SEO Governance
-
-```yaml
-seo_governance:
-  keyword_strategy:
-    primary_clusters:
-      - "Varietal clusters: Pinot Noir, Cabernet Sauvignon, Chardonnay, Barolo, etc."
-      - "Region clusters: Burgundy, Napa Valley, Tuscany, Rhône, etc."
-      - "Occasion clusters: wine gift, wine for Thanksgiving, best wine under $50"
-      - "Educational clusters: drinking window, food pairing, how to store wine"
-    
-    cluster_approach: true
-    update_cadence_days: 90
-  
-  technical_standards:
-    canonical_tags: required
-    meta_description_length: "120–155 characters"
-    title_tag_format: "[Wine Name] [Vintage] — [Store Name] | [Varietal] from [Region]"
-    internal_links_per_post: "2–4 to relevant PDPs or region/varietal guides"
-    image_alt_text: required
-    structured_data: "Product schema on all PDPs; Article schema on all blog posts"
-  
-  wine_seo_rules:
-    - "Always include the varietal name in the H1"
-    - "Include the vintage year in the page title for vintage-specific content"
-    - "Drinking window guidance must use specific years ('2024–2030,' not 'drink soon')"
-    - "Food pairing keywords must use specific dish names for long-tail SEO value"
-    - "Region guides must target the official appellation name, not informal versions"
-  
-  prohibited_tactics:
-    - "Keyword stuffing varietal names"
-    - "Duplicate content across similar varietal pages without meaningful differentiation"
-    - "Buying backlinks from non-wine-related domains"
-    - "Auto-generating product descriptions from templates without human review"
-    - "Scraping competitor tasting notes"
-```
+> For content quality standards (word counts, AI disclosure rules, wine-specific standards, lifecycle), SEO governance, keyword clusters, and format specifications, see **companion/CONTENT.MD**.
 
 ---
 
@@ -1720,25 +1551,8 @@ recommendation_rules:
     out_of_stock_filter: true
     margin_floor: 30%
   
-  context_rules:
-    homepage:
-      - "Blend: 40% persona affinity, 40% campaign boost, 20% trending"
-      - "For Collectors: weight toward allocation and pre-order SKUs"
-    pdp:
-      - "Frequently bought together first; then same-producer alternatives"
-      - "Never recommend a competing SKU at a lower price on a full-price PDP"
-    cart:
-      - "Bundle pairing based on get_frequently_bought_together()"
-      - "Do not upsell aggressively at checkout — only one soft cross-sell"
-    email:
-      - "Top 3 SKUs max; must be in-stock at send time (check inventory at send)"
-      - "For Loyalists: weight toward their preferred varietal + new arrivals"
-      - "For Gifters: weight toward gift-appropriate SKUs and price points"
-    post_purchase:
-      - "Drinking window note for what they just bought"
-      - "Pairing recommendation (food pairing specific to their SKU)"
-      - "A complementary wine (not the same varietal — broaden gently)"
-  
+  # For per-page context rules (homepage, PDP, cart, email, post-purchase) and algorithm weights, see companion/PERSONALIZATION.MD
+
   anti_creepiness_rules:
     - "Never write 'you've been looking at [wine]' — frame as 'still available' instead"
     - "Never reference a specific price point the customer viewed"
@@ -1803,102 +1617,7 @@ competitive_triggers:
 
 ## 22. Crisis & Brand Safety Protocols
 
-### Crisis Severity Levels
-
-```yaml
-crisis_levels:
-  level_1_monitor:
-    definition: "Isolated negative review; minor social criticism; no press mention"
-    agent_action: "Continue normal operations; include in daily report"
-    human_action: "Monitor; no intervention"
-  
-  level_2_caution:
-    definition: "Negative sentiment spike > 15%; emerging press interest; wine quality complaint with traction"
-    agent_action: "Pause all scheduled promotional content; switch to evergreen or editorial only"
-    human_action: "Review all scheduled sends; prepare holding statement"
-    escalation_contact: "[Marketing lead]"
-    wine_specific: "Any credible report of a wine quality or safety issue triggers Level 2 immediately — do not wait for 15% threshold"
-  
-  level_3_crisis:
-    definition: "Active press coverage; product recall; significant social volume; reputational risk"
-    agent_action: "FULL STOP — pause all campaign sends, ads, and scheduled social posts immediately"
-    human_action: "Activate crisis playbook; take manual control of all channels"
-    escalation_contact: "[Owner / PR contact]"
-    resume_condition: "Explicit human authorization only"
-    wine_specific: "Any product recall or safety notification automatically triggers Level 3"
-```
-
-### Kill Switch
-
-```yaml
-kill_switch:
-  trigger: "Human operator activates OR Level 3 auto-detected OR product recall issued"
-  
-  actions_in_order:
-    1: "Cancel all queued email sends"
-    2: "Pause all active paid campaigns (Google, Meta, Pinterest)"
-    3: "Unschedule all pending social posts"
-    4: "Disable behavioral trigger emails (cart abandon, winback, etc.)"
-    5: "Log kill switch activation with timestamp and initiator"
-    6: "Alert all team members on escalation list"
-  
-  what_continues:
-    - "Order confirmations and transactional emails"
-    - "Shipping notifications"
-    - "Customer service responses"
-    - "Recall or safety notifications (these are legally required communications)"
-  
-  resume_protocol:
-    - "Human authorization required per channel"
-    - "Minimum 4-hour review before any marketing resumes"
-    - "If recall: legal clearance required before any product-related content resumes"
-```
-
-### Brand Safety Categories
-
-```yaml
-brand_safety:
-  absolute_exclusions:
-    - "Adult content"
-    - "Content targeting minors (under 21 in alcohol context)"
-    - "Extremist or hate content"
-    - "Graphic violence"
-    - "Illegal goods and services"
-  
-  alcohol_specific_exclusions:
-    - "Any content implying alcohol consumption improves health"
-    - "Any content targeting or appealing primarily to underage audiences"
-    - "Any context that normalizes excessive or irresponsible consumption"
-    - "Any paid adjacency to gambling, drug use, or risky behavior content"
-  
-  paid_media_brand_safety:
-    keyword_blocklist: "[Reference SAFETY.MD — includes: DUI, underage, alcoholism, addiction, etc.]"
-    domain_blocklist: "[Reference SAFETY.MD]"
-    inventory_type: "Avoid UGC inventory without brand safety filters enabled"
-  
-  sensitive_date_calendar:
-    - date: "Dry January (Jan 1–31)"
-      action: "Reduce paid prospecting; shift to educational content; no urgency or promotional messaging"
-    - date: "National holidays with tragedy associations"
-      action: "Pause promotional sends day-of; resume next day if appropriate"
-    - date: "High-profile DUI incidents in news cycle"
-      action: "Pause all paid; review scheduled email before sending"
-```
-
-### Tone Override Rules
-
-```yaml
-tone_override:
-  during_natural_disaster_in_target_market:
-    action: "Pause all promotional sends to affected region; hold for minimum 48 hours"
-  
-  during_product_quality_issue:
-    action: "Pause all promotional content for affected SKU immediately; factual communication only"
-    wine_specific: "If a wine is suspected of a fault (corked batch, labeling error): pause all sends mentioning that SKU; notify customers who purchased it directly"
-  
-  during_industry_crisis (e.g., major wine fraud, contamination at another retailer):
-    action: "Pause comparative content; switch to trust-building editorial; reassure without capitalizing"
-```
+> Full crisis protocols, kill switch procedures, brand safety categories, and tone override rules are governed by **companion/SAFETY.MD**, which is loaded at every session start alongside this file. SAFETY.MD is the authoritative and more detailed version of these protocols.
 
 ---
 
@@ -1932,52 +1651,7 @@ conversion_windows:
   wine_specific_note: "For Collector and pre-order campaigns, consider extending conversion windows to 60 days — these purchases involve long deliberation"
 ```
 
-### UTM & Naming Conventions
-
-```yaml
-utm_conventions:
-  format: "utm_source=[source]&utm_medium=[medium]&utm_campaign=[campaign_id]&utm_content=[asset_id]"
-  
-  source_values:
-    email: "email"
-    google: "google"
-    meta: "meta"
-    pinterest: "pinterest"
-    organic_social: "social"
-  
-  medium_values:
-    campaign_email: "email"
-    paid_search: "cpc"
-    paid_social: "paid_social"
-    organic_social: "organic_social"
-    google_shopping: "shopping"
-  
-  campaign_id_format: "[YYYY-MM]-[type_code]-[persona_code]-[sku_short]"
-  # Example: 2025-03-promo-ds-borg25 (March 2025 promotion, Deal Seeker, Bordeaux 2025)
-  
-  type_codes:
-    new_arrival: "na"
-    promotion: "promo"
-    limited_allocation: "la"
-    seasonal: "seas"
-    winback: "wb"
-    educational: "edu"
-    bundle: "bndl"
-    pre_order: "po"
-  
-  persona_codes:
-    Explorer: "ex"
-    Gifter: "gi"
-    Loyalist: "lo"
-    Deal_Seeker: "ds"
-    Collector: "co"
-    all: "all"
-  
-  enforcement:
-    - "All agent-generated links must include UTM parameters"
-    - "Missing UTM = unattributed revenue; flagged in daily QA"
-    - "Never modify UTM parameters after a campaign launches"
-```
+> For UTM naming conventions, source/medium codes, campaign ID format, and enforcement rules, see **companion/MEASUREMENT.MD**.
 
 ---
 
@@ -2041,22 +1715,7 @@ guardrail_metrics:
     max_allowed_degradation_pct: 10
 ```
 
-### Rollout Stages
-
-```yaml
-rollout_stages:
-  stage_1: 5%     # internal test accounts
-  stage_2: 10%
-  stage_3: 25%
-  stage_4: 50%
-  stage_5: 100%
-  
-  hold_at_each_stage_days: 3
-  auto_rollback_trigger: "Guardrail metric degrades > threshold at any stage"
-  full_rollout_requires: "Human sign-off at 50% stage"
-  
-  wine_exception: "Do not advance rollout stages during the 72 hours before or after a major calendar event (Valentine's Day send, Thanksgiving, holiday gifting peak) — behavior is not representative of steady state"
-```
+> For rollout stage percentages, hold periods, and test design library (including proven wine-specific test designs), see **companion/EXPERIMENTATION.MD**.
 
 ---
 

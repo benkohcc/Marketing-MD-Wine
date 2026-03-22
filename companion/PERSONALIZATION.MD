@@ -1,6 +1,7 @@
 # PERSONALIZATION.MD — Wine E-Commerce
 *Companion file to MARKETING-wine-ecommerce.md — Recommendation engine, dynamic content, personalization governance*
 *Loaded by: update-personalization skill, email agents, web experience agents*
+*Authority: This file contains full personalization tier configuration, algorithm weights, per-page context rules, persona-specific personalization rules, and consent governance. MARKETING.md Section 20 contains tier summaries, diversity controls, and anti-creepiness rules as universal guardrails; this file is the implementation authority.*
 
 ---
 

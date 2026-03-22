@@ -1,6 +1,7 @@
 # PRICING.MD — Wine E-Commerce
 *Companion file to MARKETING-wine-ecommerce.md — Discount authority, promotional rules, wine pricing configuration*
 *Loaded by: Campaign agents, plan-campaign skill, any agent creating or modifying offers*
+*Authority: This file contains the full discount authority matrix, promotional frequency rules, wine pricing tiers, channel-specific pricing, persona pricing rules, and bundle pricing. MARKETING.md Section 18 contains the same discount authority matrix and frequency rules as the governance summary; this file is the implementation authority.*
 
 ---
 

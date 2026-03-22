@@ -1,6 +1,7 @@
 # CONTENT.MD — Wine E-Commerce
 *Companion file to MARKETING-wine-ecommerce.md — Editorial strategy, content governance, SEO*
 *Loaded by: generate-content skill, seo-audit skill, any agent producing editorial or long-form content*
+*Authority: This file contains full content pillar definitions (with example topics), format specifications, quality standards, SEO governance, and editorial calendar. MARKETING.md Section 19 contains the pillar summary table and publishing approval gates as universal governance; this file is the implementation authority.*
 
 ---
 
