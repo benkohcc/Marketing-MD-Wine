@@ -1410,135 +1410,19 @@ bid_ceilings:
 
 ## 18. Pricing & Promotional Rules
 
-### Discount Authority Matrix
-
-```yaml
-discount_authority:
-  agent_autonomous:
-    max_discount_pct: 10       # agent can apply up to 10% without approval
-    permitted_types: [free_shipping, percentage_off]
-    excluded_skus: "Any SKU with margin < 35%, any limited allocation wine, any Collector-tier wine ($150+)"
-  
-  notify_then_apply:
-    discount_range: "10%–20%"
-    requires: "Campaign brief approved at Gate 1"
-  
-  human_approval_required:
-    discount_above_pct: 20
-    site_wide_sales: true
-    flash_sales: true          # any sale < 48 hours requires human sign-off
-```
-
-### Promotional Frequency Rules
-
-```yaml
-promotional_rules:
-  max_promotional_campaigns_per_quarter: 3
-  min_days_between_promotions: 21    # 3-week cooldown between discount campaigns
-  
-  price_integrity_rules:
-    - "Never discount a wine within 30 days of its full-price new arrival launch"
-    - "Never discount allocation or pre-order wines — scarcity is the mechanism"
-    - "Compare-at prices must reflect a genuine prior price — not an inflated reference"
-    - "Never advertise a 'sale' price as a 'regular' price"
-    - "Seasonal occasion framing (Mother's Day, holiday) does not constitute a promotional campaign unless a discount is offered"
-  
-  discount_stacking:
-    allowed: false             # one discount mechanism at a time
-    exception: "Free shipping may stack with a percentage discount if approved in brief"
-  
-```
-
-> For pricing tier definitions (tier_collector, tier_loyalist, etc.), channel-specific pricing rules, persona pricing rules, and bundle pricing configuration, see **companion/PRICING.MD**.
+> Full pricing governance — discount authority matrix, promotional frequency rules, price integrity rules, pricing tiers, channel-specific pricing, persona pricing rules, and bundle pricing — is in **companion/PRICING.MD**, loaded by all campaign agents.
 
 ---
 
 ## 19. Content Strategy & Governance
 
-### Content Pillars
-
-```yaml
-content_pillars:
-  - name: "Region & Varietal Education"
-    purpose: "Give Explorers the knowledge they're looking for; reinforce Loyalist expertise"
-    formats: [blog_post, region_guide, varietal_explainer, email_editorial]
-    target_personas: [Explorer, Loyalist]
-    funnel_stage: awareness
-    kpi: content_dwell_time_and_pdp_click_rate
-  
-  - name: "Vintage Intelligence"
-    purpose: "Give Collectors and Loyalists the insider knowledge that justifies the relationship"
-    formats: [vintage_assessment, drinking_window_guide, email_new_arrival]
-    target_personas: [Loyalist, Collector]
-    funnel_stage: consideration
-    kpi: email_open_rate_and_pdp_conversion
-  
-  - name: "Occasion & Gift Guidance"
-    purpose: "Reduce decision anxiety for Gifters; make the right choice obvious"
-    formats: [gift_guide, occasion_roundup, food_pairing_guide]
-    target_personas: [Gifter, Explorer]
-    funnel_stage: conversion
-    kpi: add_to_cart_rate_from_content
-  
-  - name: "The Store's Point of View"
-    purpose: "Build brand voice authority — editorials, harvest notes, producer profiles"
-    formats: [long_form_editorial, producer_profile, harvest_report]
-    target_personas: [all]
-    funnel_stage: awareness_and_retention
-    kpi: social_shares_and_email_forwarding
-
-content_mix_targets:
-  educational: 40%
-  promotional: 25%
-  editorial_voice: 25%
-  ugc_and_community: 10%
-```
-
-> For content quality standards (word counts, AI disclosure rules, wine-specific standards, lifecycle), SEO governance, keyword clusters, and format specifications, see **companion/CONTENT.MD**.
+> Full content governance — content pillars (with example topics, cadence, and quantified KPIs), content mix targets, quality standards, SEO governance, and format specifications — is in **companion/CONTENT.MD**, loaded by all content-generating agents.
 
 ---
 
 ## 20. Personalization Strategy
 
-### Personalization Tiers
-
-```yaml
-personalization_tiers:
-  tier_0_anonymous:
-    identifier: anonymous_id
-    available_signals: [page_views, search_queries, referrer, device, geo]
-    permitted_personalization:
-      - "Category-level recommendations based on current session browse (varietal, region)"
-      - "Geo-based content (state shipping eligibility, local event mentions)"
-      - "Session-context messaging (exit intent, low-stock urgency on viewed SKU)"
-    prohibited:
-      - "Referencing any prior session — anonymous users have no memory"
-      - "Inferring persona from a single session without multiple confirming signals"
-  
-  tier_1_engaged:
-    identifier: email captured, no purchase
-    available_signals: [email_engagement, browse_history, search_queries, content_views]
-    permitted_personalization:
-      - "Varietal and region recommendations based on browse"
-      - "Content interest signals from email clicks (region guide → regional recommendations)"
-      - "Abandoned browse follow-up (must be topic-based, not SKU-specific)"
-    prohibited:
-      - "Naming specific prices viewed"
-      - "Referencing exact SKUs browsed in subject lines"
-  
-  tier_2_known:
-    identifier: customer_id (purchased or logged in)
-    available_signals: [full_purchase_history, persona, rfm, clv, varietal_affinity, lifecycle_stage, drinking_window_data]
-    permitted_personalization:
-      - "Full persona-driven copy adaptation (tone, angle, proof points)"
-      - "Varietal and producer affinity-based new arrival targeting"
-      - "Lifecycle-stage-appropriate messaging (Loyalist gets insider access; Explorer gets discovery)"
-      - "Drinking window reminders ('the 2020 Barolo you bought should be opening now')"
-    prohibited:
-      - "Referencing inferred sensitive attributes"
-      - "Revealing surveillance-obvious data ('you've looked at this wine 4 times')"
-      - "Assuming persona from a single data point — require 3+ confirming signals"
-```
+> Full personalization tier configuration (permitted signals, allowed/prohibited actions per tier, critical rules) is in **companion/PERSONALIZATION.MD**, loaded by email agents and personalization agents.
 
 ### Recommendation Engine Rules
 
@@ -1623,99 +1507,13 @@ competitive_triggers:
 
 ## 23. Attribution Model Specification
 
-```yaml
-attribution:
-  primary_model: linear    # equal credit across all touches — appropriate for multi-touch wine buying journey
-  use_for: "Daily campaign optimization and weekly reporting"
-  rationale: "Wine buyers typically research across multiple touchpoints (blog, email, paid) before purchase — last-touch undercredits upper-funnel"
-  
-  secondary_model: data_driven_mmm   # marketing mix modeling for budget allocation
-  use_for: "Quarterly budget allocation decisions"
-  
-  conflict_resolution: "When primary and secondary models disagree by > 20% on channel contribution, flag for human review before reallocating budget"
-```
-
-### Conversion Windows
-
-```yaml
-conversion_windows:
-  paid_search_click: 14 days
-  paid_social_click: 7 days
-  paid_social_view: 1 day      # view-through attribution is conservative for wine
-  email_click: 30 days         # wine buying decisions can be slow — 30-day window appropriate
-  organic_search: 30 days
-  direct: 30 days
-  
-  default_lookback: 90 days    # Loyalists and Collectors have long consideration cycles
-  
-  wine_specific_note: "For Collector and pre-order campaigns, consider extending conversion windows to 60 days — these purchases involve long deliberation"
-```
-
-> For UTM naming conventions, source/medium codes, campaign ID format, and enforcement rules, see **companion/MEASUREMENT.MD**.
+> Full attribution governance — primary and secondary models, known limitations, agent rules, conversion windows (including wine-specific scenarios and iOS/Safari restrictions), and UTM standards — is in **companion/MEASUREMENT.MD**, loaded by all analytics and reporting agents.
 
 ---
 
 ## 24. Experimentation Framework
 
-### Statistical Standards
-
-```yaml
-statistical_standards:
-  confidence_level: 95%
-  statistical_power: 80%
-  minimum_detectable_effect: 5%    # smallest lift worth detecting in wine e-commerce
-  
-  minimum_test_duration_days: 7    # at least one full week — wine buying is seasonal-day-sensitive
-  maximum_test_duration_days: 28   # 4 weeks; if inconclusive, pause and redesign
-  
-  novelty_effect_correction: true
-  sample_ratio_mismatch_detection: true
-  
-  wine_specific_note: "Tests running across seasonal windows (e.g., starting Nov 20, ending Dec 5) will be contaminated by holiday demand spike. Account for this in test design."
-```
-
-### Test Governance
-
-```yaml
-test_governance:
-  max_concurrent_tests_per_page: 1
-  max_concurrent_tests_sitewide: 5
-  
-  approval_required_for:
-    - "Any test modifying cart or checkout flow"
-    - "Any test modifying price display or discount presentation"
-    - "Any test on audience > 500 customers"
-    - "Any test during peak seasonal window (Nov 15 – Jan 5)"
-  
-  agent_authority:
-    can_create:
-      - "Email subject line A/B tests"
-      - "PDP urgency banner tests"
-      - "Collection page sort order tests"
-      - "Social creative A/B tests"
-    cannot_create_without_approval:
-      - "Checkout flow tests"
-      - "Pricing and discount tests"
-      - "Any test overlapping with an active allocation or limited availability campaign"
-    can_call_winner: false     # agents surface results; humans approve promotion
-    can_rollback: true         # auto-revert if guardrail metric degrades
-```
-
-### Guardrail Metrics
-
-```yaml
-guardrail_metrics:
-  - metric: checkout_completion_rate
-    max_allowed_degradation_pct: 5
-  - metric: email_unsubscribe_rate
-    max_allowed_degradation_pct: 20
-  - metric: spam_complaint_rate
-    max_allowed_degradation_pct: 30
-  - metric: revenue_per_visitor
-    max_allowed_degradation_pct: 10
-```
-
-> For rollout stage percentages, hold periods, and test design library (including proven wine-specific test designs), see **companion/EXPERIMENTATION.MD**.
+> Full experimentation governance — statistical standards, test governance, concurrent limits, agent authority, guardrail metrics, rollout stages, and wine-specific test designs — is in **companion/EXPERIMENTATION.MD**, loaded by all experimentation agents.
 
 ---
 
@@ -1882,6 +1680,8 @@ fail_safe_defaults:
 ```
 
 ### Anti-Hallucination System
+
+> This block covers cross-cutting hallucination risk. Domain-specific rules also exist in: **companion/MESSAGING.MD Section 5** (approved claims library, copy-level rules), **companion/CONTENT.MD Section 6** (editorial standards, AI disclosure), **companion/SAFETY.MD Section 9** (brand safety, wine fault descriptions).
 
 ```yaml
 anti_hallucination:
